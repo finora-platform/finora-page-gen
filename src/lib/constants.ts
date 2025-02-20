@@ -1,4 +1,3 @@
-
 import { Section, FormField } from "./types";
 
 export const sections: Section[] = [
@@ -42,12 +41,28 @@ export const sections: Section[] = [
       subtitle: "Benefits that set us apart",
       items: [
         {
-          title: "Benefit 1",
-          description: "Description of benefit 1"
+          title: "Easy Integration",
+          description: "Seamlessly integrate with your existing workflow and tools"
         },
         {
-          title: "Benefit 2",
-          description: "Description of benefit 2"
+          title: "24/7 Support",
+          description: "Round-the-clock support to help you whenever you need it"
+        },
+        {
+          title: "Scalable Solution",
+          description: "Grow your business without worrying about infrastructure"
+        },
+        {
+          title: "Secure Platform",
+          description: "Enterprise-grade security to protect your data"
+        },
+        {
+          title: "Analytics Dashboard",
+          description: "Comprehensive insights to make informed decisions"
+        },
+        {
+          title: "Custom Workflows",
+          description: "Tailor the platform to match your specific needs"
         }
       ]
     }
@@ -63,17 +78,44 @@ export const sections: Section[] = [
         {
           plan: "Basic",
           price: "$9/mo",
-          features: ["Feature 1", "Feature 2", "Feature 3"]
+          features: [
+            "Up to 10 users",
+            "Basic analytics",
+            "24/7 email support",
+            "2 team projects",
+            "5GB storage",
+            "API access",
+            "Basic integrations",
+            "Community support"
+          ]
         },
         {
           plan: "Pro",
           price: "$29/mo",
-          features: ["All Basic features", "Feature 4", "Feature 5"]
+          features: [
+            "Up to 50 users",
+            "Advanced analytics",
+            "24/7 priority support",
+            "Unlimited projects",
+            "50GB storage",
+            "Advanced API access",
+            "Premium integrations",
+            "Dedicated account manager"
+          ]
         },
         {
           plan: "Enterprise",
           price: "$99/mo",
-          features: ["All Pro features", "Feature 6", "Feature 7"]
+          features: [
+            "Unlimited users",
+            "Custom analytics",
+            "24/7 VIP support",
+            "Unlimited everything",
+            "Unlimited storage",
+            "Custom API solutions",
+            "Custom integrations",
+            "Strategic consulting"
+          ]
         }
       ]
     }
