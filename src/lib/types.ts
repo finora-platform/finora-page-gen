@@ -28,12 +28,16 @@ export interface Section {
       question: string;
       answer: string;
     }>;
+    links?: Array<{
+      title: string;
+      url: string;
+    }>;
   };
 }
 
 export type FormField = {
   label: string;
   name: string;
-  type: "text" | "textarea" | "url" | "array";
+  type: "text" | "textarea" | "url" | "array" | "email" | "number";
   arrayFields?: FormField[];
 };
