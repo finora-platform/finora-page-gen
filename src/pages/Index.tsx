@@ -1,12 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import Editor from "@/components/editor/Editor";
+import Preview from "@/components/preview/Preview";
+import { sections } from "@/lib/constants";
+import { Section } from "@/lib/types";
 
 const Index = () => {
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [sectionList, setSectionList] = useState<Section[]>(sections);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      setSectionList((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="flex w-full h-screen bg-gray-50">
+      <DndContext onDragEnd={handleDragEnd}>
+        <Editor
+          sections={sectionList}
+          activeSection={sectionList.find((s) => s.id === activeSectionId)}
+          onSectionSelect={setActiveSectionId}
+        />
+        <Preview sections={sectionList} />
+      </DndContext>
     </div>
   );
 };
