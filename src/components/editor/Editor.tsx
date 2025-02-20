@@ -1,5 +1,5 @@
 
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section } from "@/lib/types";
 import { GripVertical, Settings } from "lucide-react";
