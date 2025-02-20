@@ -24,6 +24,14 @@ const Index = () => {
     }
   };
 
+  const handleUpdateSection = (id: string, content: any) => {
+    setSectionList((sections) =>
+      sections.map((section) =>
+        section.id === id ? { ...section, content } : section
+      )
+    );
+  };
+
   return (
     <div className="flex w-full h-screen bg-gray-50">
       <DndContext onDragEnd={handleDragEnd}>
@@ -31,6 +39,7 @@ const Index = () => {
           sections={sectionList}
           activeSection={sectionList.find((s) => s.id === activeSectionId)}
           onSectionSelect={setActiveSectionId}
+          onUpdateSection={handleUpdateSection}
         />
         <Preview sections={sectionList} />
       </DndContext>
