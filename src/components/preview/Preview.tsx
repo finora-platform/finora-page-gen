@@ -1,5 +1,6 @@
 
 import { Section } from "@/lib/types";
+import { useEffect, useRef } from "react";
 import { HeroSection } from "../sections/HeroSection";
 import { FeaturesSection } from "../sections/FeaturesSection";
 import { BenefitsSection } from "../sections/BenefitsSection";
@@ -11,32 +12,56 @@ import { FooterSection } from "../sections/FooterSection";
 
 interface PreviewProps {
   sections: Section[];
+  activeSectionId: string | null;
 }
 
-const SectionComponent = ({ section }: { section: Section }) => {
-  switch (section.type) {
-    case "hero":
-      return <HeroSection content={section.content} />;
-    case "features":
-      return <FeaturesSection content={section.content} />;
-    case "benefits":
-      return <BenefitsSection content={section.content} />;
-    case "pricing":
-      return <PricingSection content={section.content} />;
-    case "testimonials":
-      return <TestimonialsSection content={section.content} />;
-    case "faq":
-      return <FAQSection content={section.content} />;
-    case "contact":
-      return <ContactSection content={section.content} />;
-    case "footer":
-      return <FooterSection content={section.content} />;
-    default:
-      return null;
-  }
+const SectionComponent = ({ 
+  section, 
+  isActive 
+}: { 
+  section: Section;
+  isActive: boolean;
+}) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isActive && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }, [isActive]);
+
+  const Component = (() => {
+    switch (section.type) {
+      case "hero": return HeroSection;
+      case "features": return FeaturesSection;
+      case "benefits": return BenefitsSection;
+      case "pricing": return PricingSection;
+      case "testimonials": return TestimonialsSection;
+      case "faq": return FAQSection;
+      case "contact": return ContactSection;
+      case "footer": return FooterSection;
+      default: return null;
+    }
+  })();
+
+  if (!Component) return null;
+
+  return (
+    <div 
+      ref={sectionRef}
+      className={`transition-all duration-300 ${
+        isActive ? 'ring-2 ring-blue-500 ring-offset-2' : ''
+      }`}
+    >
+      <Component content={section.content} />
+    </div>
+  );
 };
 
-const Preview = ({ sections }: PreviewProps) => {
+const Preview = ({ sections, activeSectionId }: PreviewProps) => {
   return (
     <div className="flex-1 p-8">
       <div className="mb-4 flex justify-between items-center">
@@ -52,7 +77,11 @@ const Preview = ({ sections }: PreviewProps) => {
       </div>
       <div className="bg-white rounded-xl shadow-sm h-[calc(100vh-8rem)] overflow-auto">
         {sections.map((section) => (
-          <SectionComponent key={section.id} section={section} />
+          <SectionComponent 
+            key={section.id} 
+            section={section} 
+            isActive={section.id === activeSectionId}
+          />
         ))}
       </div>
     </div>
