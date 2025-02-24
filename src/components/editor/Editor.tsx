@@ -1,7 +1,8 @@
+
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section, FormField } from "@/lib/types";
-import { GripVertical, ChevronDown } from "lucide-react";
+import { GripVertical, Plus } from "lucide-react";
 import { sectionFields } from "@/lib/constants";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -115,7 +116,7 @@ const FormFields = ({ fields, content, onChange }: {
                     onClick={() => removeArrayItem(field.name, index)}
                     className="text-red-600 hover:text-red-700 text-sm flex items-center"
                   >
-                    <ChevronDown className="w-4 h-4 mr-1" /> Remove
+                    <Plus className="w-4 h-4 mr-1" /> Remove
                   </button>
                 </div>
               ))}
