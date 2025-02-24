@@ -3,12 +3,15 @@ export interface Section {
   id: string;
   name: string;
   type: string;
+  enabled?: boolean;
   content: {
     title?: string;
     subtitle?: string;
     buttonText?: string;
     buttonUrl?: string;
     image?: string;
+    logo?: string;
+    themeColor?: string;
     items?: Array<{
       title: string;
       description: string;
@@ -38,6 +41,6 @@ export interface Section {
 export type FormField = {
   label: string;
   name: string;
-  type: "text" | "textarea" | "url" | "array" | "email" | "number";
+  type: "text" | "textarea" | "url" | "array" | "email" | "number" | "color" | "file";
   arrayFields?: FormField[];
 };

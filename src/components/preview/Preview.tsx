@@ -1,7 +1,9 @@
 
 import { Section } from "@/lib/types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Header } from "../navigation/Header";
 import { HeroSection } from "../sections/HeroSection";
+import { HighlightsSection } from "../sections/HighlightsSection";
 import { FeaturesSection } from "../sections/FeaturesSection";
 import { BenefitsSection } from "../sections/BenefitsSection";
 import { PricingSection } from "../sections/PricingSection";
@@ -16,8 +18,8 @@ interface PreviewProps {
 }
 
 const SectionComponent = ({ 
-  section, 
-  isActive 
+  section,
+  isActive,
 }: { 
   section: Section;
   isActive: boolean;
@@ -33,9 +35,12 @@ const SectionComponent = ({
     }
   }, [isActive]);
 
+  if (section.enabled === false) return null;
+
   const Component = (() => {
     switch (section.type) {
       case "hero": return HeroSection;
+      case "highlights": return HighlightsSection;
       case "features": return FeaturesSection;
       case "benefits": return BenefitsSection;
       case "pricing": return PricingSection;
@@ -62,27 +67,37 @@ const SectionComponent = ({
 };
 
 const Preview = ({ sections, activeSectionId }: PreviewProps) => {
+  const handleNavigation = (sectionId: string) => {
+    const section = sections.find(s => s.id === sectionId);
+    if (section) {
+      const element = document.getElementById(section.id);
+      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const themeSection = sections.find(s => s.type === 'theme');
+  const themeColor = themeSection?.content.themeColor || '#6B46C1';
+  const logo = themeSection?.content.logo;
+
   return (
-    <div className="flex-1 p-8">
-      <div className="mb-4 flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Preview</h2>
-        <div className="space-x-2">
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg shadow-sm hover:bg-gray-50">
-            Preview
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-white bg-black rounded-lg shadow-sm hover:bg-black/90">
-            Publish
-          </button>
+    <div className="flex-1 h-screen overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm h-full overflow-auto">
+        <Header 
+          sections={sections} 
+          themeColor={themeColor}
+          logo={logo}
+          onNavigate={handleNavigation} 
+        />
+        <div className="pt-16">
+          {sections.map((section) => (
+            <div key={section.id} id={section.id}>
+              <SectionComponent 
+                section={section} 
+                isActive={section.id === activeSectionId}
+              />
+            </div>
+          ))}
         </div>
-      </div>
-      <div className="bg-white rounded-xl shadow-sm h-[calc(100vh-8rem)] overflow-auto">
-        {sections.map((section) => (
-          <SectionComponent 
-            key={section.id} 
-            section={section} 
-            isActive={section.id === activeSectionId}
-          />
-        ))}
       </div>
     </div>
   );

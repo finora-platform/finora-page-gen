@@ -178,6 +178,10 @@ export const sections: Section[] = [
 ];
 
 export const sectionFields: Record<string, FormField[]> = {
+  theme: [
+    { label: "Theme Color", name: "themeColor", type: "color" },
+    { label: "Logo", name: "logo", type: "file" }
+  ],
   hero: [
     { label: "Title", name: "title", type: "text" },
     { label: "Subtitle", name: "subtitle", type: "textarea" },
