@@ -12,6 +12,17 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const THEME_COLORS = [
+  "#6B46C1", // Purple
+  "#2563EB", // Blue
+  "#16A34A", // Green
+  "#EA580C", // Orange
+  "#DC2626", // Red
+  "#DB2777", // Pink
+  "#7C3AED", // Violet
+  "#2DD4BF", // Teal
+];
+
 interface EditorProps {
   sections: Section[];
   activeSection: Section | undefined;
@@ -24,15 +35,18 @@ const SortableItem = ({
   section, 
   isActive,
   onToggle,
-  onClick 
+  onClick,
+  isDraggable = true
 }: { 
   section: Section;
   isActive: boolean;
   onToggle: (enabled: boolean) => void;
   onClick: () => void;
+  isDraggable?: boolean;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: section.id,
+    disabled: !isDraggable
   });
 
   const style = {
@@ -46,22 +60,53 @@ const SortableItem = ({
         <div className={`flex items-center p-3 mb-2 rounded-lg ${
           isActive ? "bg-white shadow-lg" : "hover:bg-white/50"
         }`}>
-          <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
-            <GripVertical className="w-5 h-5" />
-          </div>
+          {isDraggable && (
+            <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
+              <GripVertical className="w-5 h-5" />
+            </div>
+          )}
           <AccordionTrigger 
             onClick={onClick}
             className="flex-1 hover:no-underline"
           >
             <span className="text-sm font-medium">{section.name}</span>
           </AccordionTrigger>
-          <Switch
-            checked={section.enabled !== false}
-            onCheckedChange={onToggle}
-            onClick={e => e.stopPropagation()}
-            className="ml-2"
-          />
+          {section.type !== 'theme' && (
+            <Switch
+              checked={section.enabled !== false}
+              onCheckedChange={onToggle}
+              onClick={e => e.stopPropagation()}
+              className="ml-2"
+            />
+          )}
         </div>
+        {section.type === 'theme' && (
+          <AccordionContent>
+            <div className="p-4 space-y-4">
+              <div className="flex flex-wrap gap-2">
+                {THEME_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => onToggle(color)}
+                    className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
+                    style={{ 
+                      backgroundColor: color,
+                      borderColor: section.content.themeColor === color ? 'white' : 'transparent',
+                      boxShadow: section.content.themeColor === color ? '0 0 0 2px #000' : 'none'
+                    }}
+                  />
+                ))}
+              </div>
+              <input
+                type="text"
+                placeholder="Logo URL"
+                value={section.content.logo || ''}
+                onChange={(e) => onClick({ logo: e.target.value })}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </AccordionContent>
+        )}
       </AccordionItem>
     </div>
   );
@@ -148,13 +193,32 @@ const Editor = ({
   onUpdateSection,
   onToggleSection 
 }: EditorProps) => {
+  const configSection = sections.find(s => s.type === 'theme');
+  const contentSections = sections.filter(s => s.type !== 'theme');
+
   return (
     <div className="w-80 h-full border-r bg-gray-50/50 backdrop-blur-xl p-4 overflow-auto">
       <div className="mb-8">
+        <h2 className="text-lg font-semibold mb-4">Site Configuration</h2>
+        <Accordion type="single" collapsible className="w-full">
+          {configSection && (
+            <SortableItem
+              key={configSection.id}
+              section={configSection}
+              isActive={activeSection?.id === configSection.id}
+              onToggle={(color) => onUpdateSection(configSection.id, { ...configSection.content, themeColor: color })}
+              onClick={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
+              isDraggable={false}
+            />
+          )}
+        </Accordion>
+      </div>
+
+      <div className="mb-8">
         <h2 className="text-lg font-semibold mb-4">Sections</h2>
-        <SortableContext items={sections} strategy={verticalListSortingStrategy}>
+        <SortableContext items={contentSections} strategy={verticalListSortingStrategy}>
           <Accordion type="single" collapsible className="w-full">
-            {sections.map((section) => (
+            {contentSections.map((section) => (
               <SortableItem
                 key={section.id}
                 section={section}
@@ -167,7 +231,7 @@ const Editor = ({
         </SortableContext>
       </div>
       
-      {activeSection && (
+      {activeSection && activeSection.type !== 'theme' && (
         <div>
           <h3 className="text-lg font-semibold mb-4">Edit {activeSection.name}</h3>
           <FormFields

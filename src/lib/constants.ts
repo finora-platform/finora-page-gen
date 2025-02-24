@@ -2,6 +2,15 @@ import { Section, FormField } from "./types";
 
 export const sections: Section[] = [
   { 
+    id: "site-config", 
+    name: "Site Configuration", 
+    type: "theme",
+    content: {
+      themeColor: "#6B46C1",
+      logo: "",
+    }
+  },
+  { 
     id: "hero", 
     name: "Hero", 
     type: "hero",
@@ -180,7 +189,7 @@ export const sections: Section[] = [
 export const sectionFields: Record<string, FormField[]> = {
   theme: [
     { label: "Theme Color", name: "themeColor", type: "color" },
-    { label: "Logo", name: "logo", type: "file" }
+    { label: "Logo URL", name: "logo", type: "url" }
   ],
   hero: [
     { label: "Title", name: "title", type: "text" },

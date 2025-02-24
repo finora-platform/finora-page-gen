@@ -7,6 +7,7 @@ export interface Section {
   content: {
     title?: string;
     subtitle?: string;
+    description?: string;
     buttonText?: string;
     buttonUrl?: string;
     image?: string;
