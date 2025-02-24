@@ -12,6 +12,7 @@ const STORAGE_KEY = "lovable_sections";
 
 const Index = () => {
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sectionList, setSectionList] = useState<Section[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? JSON.parse(saved) : defaultSections;
@@ -105,16 +106,20 @@ const Index = () => {
   return (
     <div className="flex w-full h-screen bg-gray-50">
       <DndContext onDragEnd={handleDragEnd}>
-        <Editor
-          sections={sectionList}
-          activeSection={sectionList.find((s) => s.id === activeSectionId)}
-          onSectionSelect={setActiveSectionId}
-          onUpdateSection={handleUpdateSection}
-          onToggleSection={handleToggleSection}
-        />
+        {isSidebarOpen && (
+          <Editor
+            sections={sectionList}
+            activeSection={sectionList.find((s) => s.id === activeSectionId)}
+            onSectionSelect={setActiveSectionId}
+            onUpdateSection={handleUpdateSection}
+            onToggleSection={handleToggleSection}
+          />
+        )}
         <Preview 
           sections={sectionList} 
           activeSectionId={activeSectionId}
+          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          isSidebarOpen={isSidebarOpen}
         />
       </DndContext>
     </div>
