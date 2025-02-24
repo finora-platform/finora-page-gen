@@ -2,7 +2,7 @@
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section, FormField } from "@/lib/types";
-import { GripVertical, ChevronDown, EyeOff, Eye } from "lucide-react";
+import { GripVertical, ChevronDown, EyeOff, Eye, Trash, Plus } from "lucide-react";
 import { sectionFields } from "@/lib/constants";
 import {
   Accordion,
