@@ -31,19 +31,21 @@ interface EditorProps {
   onToggleSection: (id: string, enabled: boolean) => void;
 }
 
+interface SortableItemProps {
+  section: Section;
+  isActive: boolean;
+  onToggle: (value: any) => void;
+  onClick: () => void;
+  isDraggable?: boolean;
+}
+
 const SortableItem = ({ 
   section, 
   isActive,
   onToggle,
   onClick,
   isDraggable = true
-}: { 
-  section: Section;
-  isActive: boolean;
-  onToggle: (enabled: boolean) => void;
-  onClick: () => void;
-  isDraggable?: boolean;
-}) => {
+}: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: section.id,
     disabled: !isDraggable
@@ -87,7 +89,7 @@ const SortableItem = ({
                 {THEME_COLORS.map((color) => (
                   <button
                     key={color}
-                    onClick={() => onToggle(color)}
+                    onClick={() => onToggle({ themeColor: color })}
                     className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
                     style={{ 
                       backgroundColor: color,
@@ -101,7 +103,7 @@ const SortableItem = ({
                 type="text"
                 placeholder="Logo URL"
                 value={section.content.logo || ''}
-                onChange={(e) => onClick({ logo: e.target.value })}
+                onChange={(e) => onToggle({ logo: e.target.value })}
                 className="w-full p-2 border rounded"
               />
             </div>
@@ -206,8 +208,8 @@ const Editor = ({
               key={configSection.id}
               section={configSection}
               isActive={activeSection?.id === configSection.id}
-              onToggle={(color) => onUpdateSection(configSection.id, { ...configSection.content, themeColor: color })}
-              onClick={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
+              onToggle={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
+              onClick={() => onSectionSelect(configSection.id)}
               isDraggable={false}
             />
           )}
