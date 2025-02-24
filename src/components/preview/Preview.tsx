@@ -1,6 +1,6 @@
 
 import { Section } from "@/lib/types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavigationBar } from "../navigation/NavigationBar";
 import { HeroSection } from "../sections/HeroSection";
 import { HighlightsSection } from "../sections/HighlightsSection";
@@ -19,10 +19,12 @@ interface PreviewProps {
 
 const SectionComponent = ({ 
   section, 
-  isActive 
+  isActive,
+  isVisible 
 }: { 
   section: Section;
   isActive: boolean;
+  isVisible: boolean;
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -34,6 +36,8 @@ const SectionComponent = ({
       });
     }
   }, [isActive]);
+
+  if (!isVisible) return null;
 
   const Component = (() => {
     switch (section.type) {
@@ -65,6 +69,8 @@ const SectionComponent = ({
 };
 
 const Preview = ({ sections, activeSectionId }: PreviewProps) => {
+  const [visibleSections] = useState<Set<string>>(new Set(sections.map(s => s.id)));
+
   const handleNavigation = (sectionId: string) => {
     const section = sections.find(s => s.id === sectionId);
     if (section) {
@@ -74,30 +80,18 @@ const Preview = ({ sections, activeSectionId }: PreviewProps) => {
   };
 
   return (
-    <div className="flex-1">
-      <NavigationBar sections={sections} onNavigate={handleNavigation} />
-      <div className="pt-16">
-        <div className="mb-4 flex justify-between items-center p-8">
-          <h2 className="text-lg font-semibold">Preview</h2>
-          <div className="space-x-2">
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg shadow-sm hover:bg-gray-50">
-              Preview
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-black rounded-lg shadow-sm hover:bg-black/90">
-              Publish
-            </button>
+    <div className="flex-1 h-screen overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm h-full overflow-auto">
+        <NavigationBar sections={sections} onNavigate={handleNavigation} />
+        {sections.map((section) => (
+          <div key={section.id} id={section.id}>
+            <SectionComponent 
+              section={section} 
+              isActive={section.id === activeSectionId}
+              isVisible={visibleSections.has(section.id)}
+            />
           </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm h-[calc(100vh-8rem)] overflow-auto">
-          {sections.map((section) => (
-            <div key={section.id} id={section.id}>
-              <SectionComponent 
-                section={section} 
-                isActive={section.id === activeSectionId}
-              />
-            </div>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );
