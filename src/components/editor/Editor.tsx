@@ -1,27 +1,13 @@
 
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Section, FormField } from "@/lib/types";
-import { GripVertical, Plus } from "lucide-react";
+import { Section } from "@/lib/types";
+import { GripVertical } from "lucide-react";
 import { sectionFields } from "@/lib/constants";
 import { Switch } from "@/components/ui/switch";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
-const THEME_COLORS = [
-  "#6B46C1", // Purple
-  "#2563EB", // Blue
-  "#16A34A", // Green
-  "#EA580C", // Orange
-  "#DC2626", // Red
-  "#DB2777", // Pink
-  "#7C3AED", // Violet
-  "#2DD4BF", // Teal
-];
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { ThemeEditor } from "./ThemeEditor";
+import { FormEditor } from "./FormEditor";
 
 interface EditorProps {
   sections: Section[];
@@ -78,112 +64,24 @@ const SortableItem = ({
               checked={section.enabled !== false}
               onCheckedChange={onToggle}
               onClick={e => e.stopPropagation()}
-              className="ml-2"
+              className="ml-auto" // Changed from ml-2 to ml-auto to push switch to rightmost
             />
           )}
         </div>
-        {section.type === 'theme' && (
+        {section.type === 'theme' ? (
+          <ThemeEditor section={section} onToggle={onToggle} />
+        ) : (
           <AccordionContent>
-            <div className="p-4 space-y-4">
-              <div className="flex flex-wrap gap-2">
-                {THEME_COLORS.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => onToggle({ themeColor: color })}
-                    className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
-                    style={{ 
-                      backgroundColor: color,
-                      borderColor: section.content.themeColor === color ? 'white' : 'transparent',
-                      boxShadow: section.content.themeColor === color ? '0 0 0 2px #000' : 'none'
-                    }}
-                  />
-                ))}
-              </div>
-              <input
-                type="text"
-                placeholder="Logo URL"
-                value={section.content.logo || ''}
-                onChange={(e) => onToggle({ logo: e.target.value })}
-                className="w-full p-2 border rounded"
+            <div className="p-4">
+              <FormEditor
+                fields={sectionFields[section.type]}
+                content={section.content}
+                onChange={(content) => onToggle(content)}
               />
             </div>
           </AccordionContent>
         )}
       </AccordionItem>
-    </div>
-  );
-};
-
-const FormFields = ({ fields, content, onChange }: {
-  fields: FormField[];
-  content: any;
-  onChange: (value: any) => void;
-}) => {
-  const handleChange = (name: string, value: any) => {
-    onChange({ ...content, [name]: value });
-  };
-
-  const handleArrayChange = (fieldName: string, index: number, value: any) => {
-    const newArray = [...(content[fieldName] || [])];
-    newArray[index] = { ...newArray[index], ...value };
-    handleChange(fieldName, newArray);
-  };
-
-  const addArrayItem = (fieldName: string) => {
-    const newArray = [...(content[fieldName] || []), {}];
-    handleChange(fieldName, newArray);
-  };
-
-  const removeArrayItem = (fieldName: string, index: number) => {
-    const newArray = content[fieldName].filter((_: any, i: number) => i !== index);
-    handleChange(fieldName, newArray);
-  };
-
-  return (
-    <div className="space-y-4">
-      {fields.map((field) => (
-        <div key={field.name} className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-          {field.type === "array" ? (
-            <div className="space-y-4">
-              {(content[field.name] || []).map((item: any, index: number) => (
-                <div key={index} className="p-4 bg-white rounded-lg space-y-2">
-                  {field.arrayFields?.map((arrayField) => (
-                    <div key={arrayField.name}>
-                      <label className="block text-sm font-medium text-gray-700">{arrayField.label}</label>
-                      <input
-                        type="text"
-                        value={item[arrayField.name] || ""}
-                        onChange={(e) => handleArrayChange(field.name, index, { [arrayField.name]: e.target.value })}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                      />
-                    </div>
-                  ))}
-                  <button
-                    onClick={() => removeArrayItem(field.name, index)}
-                    className="text-red-600 hover:text-red-700 text-sm flex items-center"
-                  >
-                    <Plus className="w-4 h-4 mr-1" /> Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                onClick={() => addArrayItem(field.name)}
-                className="flex items-center text-sm text-blue-600 hover:text-blue-700"
-              >
-                <Plus className="w-4 h-4 mr-1" /> Add {field.label}
-              </button>
-            </div>
-          ) : (
-            <input
-              type={field.type === "url" ? "url" : "text"}
-              value={content[field.name] || ""}
-              onChange={(e) => handleChange(field.name, e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-          )}
-        </div>
-      ))}
     </div>
   );
 };
@@ -228,21 +126,10 @@ const Editor = ({
                 onToggle={(enabled) => onToggleSection(section.id, enabled)}
                 onClick={() => onSectionSelect(section.id)}
               />
-            ))}
+            ))}          
           </Accordion>
         </SortableContext>
       </div>
-      
-      {activeSection && activeSection.type !== 'theme' && (
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Edit {activeSection.name}</h3>
-          <FormFields
-            fields={sectionFields[activeSection.type]}
-            content={activeSection.content}
-            onChange={(content) => onUpdateSection(activeSection.id, content)}
-          />
-        </div>
-      )}
     </div>
   );
 };

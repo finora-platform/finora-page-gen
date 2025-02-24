@@ -25,7 +25,7 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
   }, [sections]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-50 border-b">
+    <header className="sticky top-0 bg-white/80 backdrop-blur-sm z-50 border-b w-full">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
