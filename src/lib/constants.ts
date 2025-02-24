@@ -174,33 +174,6 @@ export const sections: Section[] = [
         { title: "Privacy", url: "#" }
       ]
     }
-  },
-  { 
-    id: "highlights", 
-    name: "Highlights", 
-    type: "highlights",
-    content: {
-      title: "Our Highlights",
-      subtitle: "Key metrics that define our success",
-      items: [
-        {
-          title: "400+",
-          description: "Clients"
-        },
-        {
-          title: "₹11.20 Cr",
-          description: "Asset under Advisory"
-        },
-        {
-          title: "7",
-          description: "Years of Experience"
-        },
-        {
-          title: "200+",
-          description: "5-star reviews"
-        }
-      ]
-    }
   }
 ];
 

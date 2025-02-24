@@ -2,15 +2,8 @@
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section, FormField } from "@/lib/types";
-import { GripVertical, ChevronDown, EyeOff, Eye, Trash, Plus } from "lucide-react";
+import { GripVertical, Settings, Plus, Trash } from "lucide-react";
 import { sectionFields } from "@/lib/constants";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { useState } from "react";
 
 interface EditorProps {
   sections: Section[];
@@ -19,17 +12,9 @@ interface EditorProps {
   onUpdateSection: (id: string, content: any) => void;
 }
 
-const SortableItem = ({ 
-  section, 
-  isActive,
-  isVisible,
-  onToggleVisibility,
-  onClick 
-}: { 
-  section: Section;
+const SortableItem = ({ section, isActive, onClick }: { 
+  section: Section; 
   isActive: boolean;
-  isVisible: boolean;
-  onToggleVisibility: () => void;
   onClick: () => void;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -42,31 +27,19 @@ const SortableItem = ({
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
-      <AccordionItem value={section.id} className="border-none">
-        <div className={`flex items-center p-3 mb-2 rounded-lg ${
-          isActive ? "bg-white shadow-lg" : "hover:bg-white/50"
-        }`}>
-          <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
-            <GripVertical className="w-5 h-5" />
-          </div>
-          <AccordionTrigger 
-            onClick={onClick}
-            className="flex-1 hover:no-underline"
-          >
-            <span className="text-sm font-medium">{section.name}</span>
-          </AccordionTrigger>
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleVisibility();
-            }}
-            className="ml-2 text-gray-400 hover:text-gray-600"
-          >
-            {isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-          </button>
-        </div>
-      </AccordionItem>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center p-3 mb-2 rounded-lg cursor-pointer transition-all ${
+        isActive ? "bg-white shadow-lg" : "hover:bg-white/50"
+      }`}
+      onClick={onClick}
+    >
+      <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
+        <GripVertical className="w-5 h-5" />
+      </div>
+      <span className="flex-1 text-sm font-medium">{section.name}</span>
+      <Settings className="w-4 h-4 text-gray-400" />
     </div>
   );
 };
@@ -146,39 +119,21 @@ const FormFields = ({ fields, content, onChange }: {
 };
 
 const Editor = ({ sections, activeSection, onSectionSelect, onUpdateSection }: EditorProps) => {
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(
-    new Set(sections.map(s => s.id))
-  );
-
-  const toggleSectionVisibility = (sectionId: string) => {
-    setVisibleSections(prev => {
-      const next = new Set(prev);
-      if (next.has(sectionId)) {
-        next.delete(sectionId);
-      } else {
-        next.add(sectionId);
-      }
-      return next;
-    });
-  };
-
   return (
     <div className="w-80 h-full border-r bg-gray-50/50 backdrop-blur-xl p-4 overflow-auto">
       <div className="mb-8">
         <h2 className="text-lg font-semibold mb-4">Sections</h2>
         <SortableContext items={sections} strategy={verticalListSortingStrategy}>
-          <Accordion type="single" collapsible className="w-full">
+          <div className="space-y-2">
             {sections.map((section) => (
               <SortableItem
                 key={section.id}
                 section={section}
                 isActive={activeSection?.id === section.id}
-                isVisible={visibleSections.has(section.id)}
-                onToggleVisibility={() => toggleSectionVisibility(section.id)}
                 onClick={() => onSectionSelect(section.id)}
               />
             ))}
-          </Accordion>
+          </div>
         </SortableContext>
       </div>
       
