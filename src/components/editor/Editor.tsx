@@ -64,7 +64,7 @@ const SortableItem = ({
               checked={section.enabled !== false}
               onCheckedChange={onToggle}
               onClick={e => e.stopPropagation()}
-              className="ml-auto" // Changed from ml-2 to ml-auto to push switch to rightmost
+              className="ml-auto scale-80" // Added scale-90 to make switch slightly smaller
             />
           )}
         </div>
