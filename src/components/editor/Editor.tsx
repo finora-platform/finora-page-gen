@@ -1,4 +1,3 @@
-
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section } from "@/lib/types";
@@ -23,6 +22,7 @@ interface SortableItemProps {
   onToggle: (value: any) => void;
   onClick: () => void;
   isDraggable?: boolean;
+  onUpdateSection: (id: string, content: any) => void; // Ensure this is included
 }
 
 const SortableItem = ({ 
@@ -30,7 +30,8 @@ const SortableItem = ({
   isActive,
   onToggle,
   onClick,
-  isDraggable = true
+  isDraggable = true,
+  onUpdateSection // Ensure this is included
 }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: section.id,
@@ -76,7 +77,7 @@ const SortableItem = ({
               <FormEditor
                 fields={sectionFields[section.type]}
                 content={section.content}
-                onChange={(content) => onToggle(content)}
+                onChange={(content) => onUpdateSection(section.id, content)} // Updated to use onUpdateSection
               />
             </div>
           </AccordionContent>
@@ -109,6 +110,7 @@ const Editor = ({
               onToggle={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
               onClick={() => onSectionSelect(configSection.id)}
               isDraggable={false}
+              onUpdateSection={onUpdateSection} // Ensure this is passed
             />
           )}
         </Accordion>
@@ -125,6 +127,7 @@ const Editor = ({
                 isActive={activeSection?.id === section.id}
                 onToggle={(enabled) => onToggleSection(section.id, enabled)}
                 onClick={() => onSectionSelect(section.id)}
+                onUpdateSection={onUpdateSection} // Ensure this is passed
               />
             ))}          
           </Accordion>

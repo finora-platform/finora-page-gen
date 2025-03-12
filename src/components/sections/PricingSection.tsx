@@ -1,18 +1,29 @@
-
-import { Section } from "@/lib/types";
+import { Section } from "@/lib/types"; // Corrected import path
 import { Check } from "lucide-react";
 
-export const PricingSection = ({ content }: { content: Section["content"] }) => {
+interface PricingSectionProps {
+  content: Section["content"];
+  themeColor?: string; // Ensure themeColor is defined
+}
+
+export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSectionProps) => {
   return (
-    <div className="py-20 px-4 bg-[#F8F8FF]">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold mb-4">{content.title}</h2>
-        <p className="text-xl text-gray-600">{content.subtitle}</p>
+      <div className={`py-20 px-4 md:px-8`} style={{ backgroundColor: themeColor }} w-auto overflow-hidden>
+
+
+
+
+      <div className="pl-6 mb-16">
+        <h2 className="text-3xl text-white font-bold mb-4">{content.title}</h2>
+        <p className="text-xl text-white">{content.subtitle}</p>
       </div>
 
-      <div className="flex justify-center mb-8">
-        <div className="inline-flex bg-white rounded-lg p-1 shadow-sm">
-          <button className="px-6 py-2 rounded-lg bg-[#5D4B8C] text-white font-medium">
+      <div className="relative bg-white rounded-xl">
+
+      <div className="relative -top-6 left-1/2 -translate-x-1/2 flex justify-center mb-8  ">
+        <div className="inline-flex bg-white rounded-lg p-1 shadow-xl">
+          <button className="px-6 py-2 rounded-lg" style={{ backgroundColor: themeColor }} text-white font-medium>
+
             Monthly
           </button>
           <button className="px-6 py-2 rounded-lg text-gray-600 font-medium flex items-center gap-2">
@@ -22,11 +33,14 @@ export const PricingSection = ({ content }: { content: Section["content"] }) => 
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-full mx-auto overflow-hidden">
+
+
+
         {content.pricing?.map((plan, index) => (
           <div 
             key={index} 
-            className="p-8 rounded-2xl shadow-lg bg-white"
+            className="p-8 rounded-2xl  bg-white shadow-xl"
           >
             <div className="text-[#5D4B8C] text-sm font-medium mb-2">{plan.plan}</div>
             <div className="mb-6">
@@ -46,14 +60,15 @@ export const PricingSection = ({ content }: { content: Section["content"] }) => 
                 </li>
               ))}
             </ul>
-            <button 
-              className="w-full py-3 px-6 rounded-lg font-medium bg-[#5D4B8C] text-white hover:bg-[#4D3B7C] transition"
-            >
+            <button className="w-full py-3 px-6 rounded-lg font-medium bg-[#5D4B8C] text-white hover:bg-[#4D3B7C] transition">
               Get started
             </button>
           </div>
         ))}
       </div>
+
+      </div>
+
     </div>
   );
 };

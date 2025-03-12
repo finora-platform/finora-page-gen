@@ -104,7 +104,7 @@ const Index = () => {
   };
 
   return (
-    <div className="flex w-full h-screen bg-gray-50">
+    <div className="flex w-full bg-gray-50">
       <DndContext onDragEnd={handleDragEnd}>
         {isSidebarOpen && (
           <Editor

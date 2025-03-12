@@ -1,6 +1,7 @@
 
 import { Section } from "@/lib/types";
 import { useState, useEffect } from "react";
+import { Button } from "../ui/button";
 
 interface HeaderProps {
   sections: Section[];
@@ -25,17 +26,15 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
   }, [sections]);
 
   return (
-    <header className="sticky top-0 bg-white/80 backdrop-blur-sm z-50 border-b w-full">
-      <div className="max-w-7xl mx-auto px-4">
+    <header className="sticky top-0 rounded-xl bg-white/80 backdrop-blur-sm z-50 border-b w-full">
+      <div className="mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex-shrink-0">
+          <nav className="flex-shrink-0 flex space-x-8">
             {logo ? (
               <img src={logo} alt="Logo" className="h-8 w-auto" />
             ) : (
-              <div className="h-8 w-8 rounded bg-gray-200" />
+              <div className="h-8 w-8 rounded bg-gray-200"></div>
             )}
-          </div>
-          <nav className="hidden md:flex space-x-8">
             {navItems.map((section) => (
               <button
                 key={section.id}
@@ -49,6 +48,11 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
                 {section.name}
               </button>
             ))}
+          </nav>
+          <nav className="hidden md:flex space-x-4">
+            <Button variant="outline" >Contact Us</Button>
+            <Button variant="secondary" className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`}>See plans</Button>
+
           </nav>
         </div>
       </div>
