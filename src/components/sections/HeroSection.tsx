@@ -1,7 +1,9 @@
 import { Section } from "@/lib/types";
 
-export const HeroSection = ({ content }: { content: Section["content"] }) => (
-  <div className="text-center h-[70vh] py-20 px-4 mx-8 bg-[#5D4B8C] text-white rounded-3xl flex items-center justify-center">
+export const HeroSection = ({ content, themeColor }: { content: Section["content"]; themeColor: string }) => (
+
+  <div className={`text-center h-[70vh] py-20 px-4 mx-8 bg-[${themeColor}] text-white rounded-3xl flex items-center justify-center`}>
+
     <div>
       <h1 className="text-7xl font-bold mb-4">{content.title}</h1>
       <h2 className="text-4xl font-semibold mb-8">{content.subtitle}</h2>
@@ -19,7 +21,7 @@ export const HeroSection = ({ content }: { content: Section["content"] }) => (
           placeholder="Mobile number"
           className="flex-1 px-4 py-3 rounded-lg text-gray-800"
         />
-        <button className="px-8 py-3 bg-[#7C68AA] text-white rounded-lg hover:bg-[#6A579B] transition-colors">
+        <button className={`px-8 py-3 text-white rounded-lg bg-[${themeColor}] hover:bg-slate-900 transition-colors`}>
           Submit
         </button>
       </div>

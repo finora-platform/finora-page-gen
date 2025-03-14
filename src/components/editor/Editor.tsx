@@ -98,7 +98,7 @@ const Editor = ({
   const contentSections = sections.filter(s => s.type !== 'theme');
 
   return (
-    <div className="w-80 h-full border-r bg-gray-50/50 backdrop-blur-xl p-4 overflow-auto">
+    <div className="fixed w-80 h-full border-r bg-white backdrop-blur-xl p-4 overflow-auto">
       <div className="mb-8">
         <h2 className="text-lg font-semibold mb-4">Site Configuration</h2>
         <Accordion type="single" collapsible className="w-full">

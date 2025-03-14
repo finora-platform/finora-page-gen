@@ -100,7 +100,7 @@ const Preview = ({ sections, activeSectionId, onToggleSidebar, isSidebarOpen = t
   const logo = themeSection?.content.logo;
 
   return (
-    <div className="flex-1 bg-[#e5e7eb]">
+    <div className="flex-1 bg-[#e5e7eb] pl-80">
       <div className="flex items-center justify-between p-4 border-b bg-white">
         <Button 
           variant="outline" 

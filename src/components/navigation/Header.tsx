@@ -1,4 +1,3 @@
-
 import { Section } from "@/lib/types";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
@@ -40,18 +39,14 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
                 key={section.id}
                 onClick={() => onNavigate(section.id)}
                 className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-                style={{ 
-                  '--hover-color': themeColor,
-                  ':hover': { color: themeColor }
-                } as any}
               >
                 {section.name}
               </button>
             ))}
           </nav>
           <nav className="hidden md:flex space-x-4">
-            <Button variant="outline" >Contact Us</Button>
-            <Button variant="secondary" className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`}>See plans</Button>
+            <Button variant="outline" onClick={() => onNavigate('contact')}>Contact Us</Button>
+            <Button className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`} onClick={() => onNavigate('pricing')}>See plans</Button>
 
           </nav>
         </div>
