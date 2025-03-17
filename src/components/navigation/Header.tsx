@@ -1,6 +1,6 @@
-
 import { Section } from "@/lib/types";
 import { useState, useEffect } from "react";
+import { Button } from "../ui/button";
 
 interface HeaderProps {
   sections: Section[];
@@ -25,30 +25,29 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
   }, [sections]);
 
   return (
-    <header className="sticky top-0 bg-white/80 backdrop-blur-sm z-50 border-b w-full">
-      <div className="max-w-7xl mx-auto px-4">
+    <header className="sticky top-0 rounded-xl bg-white/80 backdrop-blur-sm z-50 border-b w-full">
+      <div className="mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex-shrink-0">
+          <nav className="flex-shrink-0 flex space-x-8">
             {logo ? (
               <img src={logo} alt="Logo" className="h-8 w-auto" />
             ) : (
-              <div className="h-8 w-8 rounded bg-gray-200" />
+              <div className="h-8 w-8 rounded bg-gray-200"></div>
             )}
-          </div>
-          <nav className="hidden md:flex space-x-8">
             {navItems.map((section) => (
               <button
                 key={section.id}
                 onClick={() => onNavigate(section.id)}
                 className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-                style={{ 
-                  '--hover-color': themeColor,
-                  ':hover': { color: themeColor }
-                } as any}
               >
                 {section.name}
               </button>
             ))}
+          </nav>
+          <nav className="hidden md:flex space-x-4">
+            <Button variant="outline" onClick={() => onNavigate('contact')}>Contact Us</Button>
+            <Button className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`} style={{ backgroundColor: themeColor }} onClick={() => onNavigate('pricing')}>See plans</Button>
+
           </nav>
         </div>
       </div>

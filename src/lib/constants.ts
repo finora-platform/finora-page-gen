@@ -22,6 +22,20 @@ export const sections: Section[] = [
       image: "/placeholder.svg"
     }
   },
+  {
+    id: "highlights",
+    name: "Highlights",
+    type: "highlights",
+    content: {
+      title: "Highlights Title",
+      subtitle: "Highlights Subtitle",
+      items: [
+        { title: "Item 1", description: "Description for item 1" },
+        { title: "Item 2", description: "Description for item 2" },
+        { title: "Item 3", description: "Description for item 3" },
+      ],
+    },
+  },
   { 
     id: "features", 
     name: "Features", 
@@ -197,6 +211,11 @@ export const sectionFields: Record<string, FormField[]> = {
     { label: "Button Text", name: "buttonText", type: "text" },
     { label: "Button URL", name: "buttonUrl", type: "url" },
     { label: "Image URL", name: "image", type: "url" }
+  ],
+  highlights: [
+    { label: "Title", name:"title", type: "text" },
+    { label: "Subtitle", name: "subtitle", type: "text" },
+    { label: "Items", name: "items", type: "array" },
   ],
   features: [
     { label: "Title", name: "title", type: "text" },

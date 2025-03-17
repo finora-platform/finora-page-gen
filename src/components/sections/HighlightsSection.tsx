@@ -1,9 +1,11 @@
 
 import { Section } from "@/lib/types";
 
-export const HighlightsSection = ({ content }: { content: Section["content"] }) => {
+export const HighlightsSection = ({ content, themeColor }: { content: Section["content"]; themeColor: string }) => {
+
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4" style={{ backgroundColor: themeColor }}>
+
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">{content.title}</h2>
