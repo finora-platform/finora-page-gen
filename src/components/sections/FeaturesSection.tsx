@@ -2,7 +2,7 @@ import { Circle } from 'lucide-react';
 import { Section } from "@/lib/types";
 
 export const FeaturesSection = ({ content,themeColor }: { content: Section["content"]; themeColor: string; }) => (
-  <div className={`py-20 px-36 bg-[${themeColor}]`}>
+  <div className={`py-20 px-36`} style={{ backgroundColor: themeColor }}>
     <div className="text-center mb-16">
       <h2 className="text-3xl text-left font-bold mb-4 text-white">{content.title}</h2>
       <p className="text-xl text-left text-gray-200">{content.subtitle}</p>

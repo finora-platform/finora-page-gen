@@ -46,7 +46,7 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
           </nav>
           <nav className="hidden md:flex space-x-4">
             <Button variant="outline" onClick={() => onNavigate('contact')}>Contact Us</Button>
-            <Button className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`} onClick={() => onNavigate('pricing')}>See plans</Button>
+            <Button className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`} style={{ backgroundColor: themeColor }} onClick={() => onNavigate('pricing')}>See plans</Button>
 
           </nav>
         </div>

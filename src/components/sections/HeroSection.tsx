@@ -2,7 +2,7 @@ import { Section } from "@/lib/types";
 
 export const HeroSection = ({ content, themeColor }: { content: Section["content"]; themeColor: string }) => (
 
-  <div className={`text-center h-[70vh] py-20 px-4 mx-8 bg-[${themeColor}] text-white rounded-3xl flex items-center justify-center`}>
+  <div className={`text-center h-[70vh] py-20 px-4 mx-8 text-white rounded-3xl flex items-center justify-center`} style={{ backgroundColor: themeColor }}>
 
     <div>
       <h1 className="text-7xl font-bold mb-4">{content.title}</h1>

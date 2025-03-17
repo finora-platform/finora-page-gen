@@ -8,7 +8,8 @@ import { BenefitsSection } from "../sections/BenefitsSection";
 import { PricingSection } from "../sections/PricingSection";
 import { TestimonialsSection } from "../sections/TestimonialsSection";
 import { FAQSection } from "../sections/FAQSection";
-import { ContactSection } from "../sections/ContactSection";
+import ContactSection from "../sections/ContactSection";
+
 import { FooterSection } from "../sections/FooterSection";
 import { Button } from "../ui/button";
 import { PanelLeftClose, PanelLeftOpen, Eye, Rocket } from "lucide-react";
@@ -100,12 +101,16 @@ const Preview = ({ sections, activeSectionId, onToggleSidebar, isSidebarOpen = t
   const logo = themeSection?.content.logo;
 
   return (
-    <div className="flex-1 bg-[#e5e7eb] pl-80">
+<div className={`flex-1 bg-[#e5e7eb] ${isSidebarOpen ? 'pl-80' : 'pl-0'}`}>
+
       <div className="flex items-center justify-between p-4 border-b bg-white">
-        <Button 
-          variant="outline" 
-          size="icon"
-          onClick={onToggleSidebar}
+<Button 
+  variant="outline" 
+  size="icon"
+  onClick={() => {
+    onToggleSidebar();
+  }}
+
         >
           {isSidebarOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
         </Button>

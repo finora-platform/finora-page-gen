@@ -36,7 +36,7 @@ const Index = () => {
     }
   };
 
-  const validateContent = (content: any) => {
+const validateContent = (content: any) => {
     const errors: string[] = [];
     
     if (!content.title?.trim()) {
@@ -61,7 +61,8 @@ const Index = () => {
   };
 
   const handleUpdateSection = (id: string, content: any) => {
-    const errors = validateContent(content);
+    
+    if(content.source!='ThemeEditor'){const errors = validateContent(content);
     
     if (errors.length > 0) {
       toast({
@@ -76,7 +77,7 @@ const Index = () => {
         ),
       });
       return;
-    }
+    }}
 
     setSectionList((sections) =>
       sections.map((section) =>

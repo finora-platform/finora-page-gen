@@ -24,7 +24,10 @@ export const ThemeEditor = ({ section, onToggle }: ThemeEditorProps) => (
         {THEME_COLORS.map((color) => (
           <button
             key={color}
-            onClick={() => onToggle({ themeColor: color })}
+    onClick={() => {
+        onToggle({ themeColor: color, source: 'ThemeEditor' }); // Include source
+    }}
+
             className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
             style={{ 
               backgroundColor: color,
