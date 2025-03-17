@@ -20,7 +20,7 @@ const Index = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sectionList));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sectionList));
   }, [sectionList]);
 
   const handleDragEnd = (event: DragEndEvent) => {

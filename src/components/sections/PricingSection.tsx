@@ -1,5 +1,6 @@
-import { Section } from "@/lib/types"; // Corrected import path
+import { Section } from "@/lib/types";
 import { Check } from "lucide-react";
+import { useState } from "react";
 
 interface PricingSectionProps {
   content: Section["content"];
@@ -8,22 +9,16 @@ interface PricingSectionProps {
 
 export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSectionProps) => {
   return (
-      <div className={`py-20 px-4 md:px-8`} style={{ backgroundColor: themeColor }} w-auto overflow-hidden>
-
-
-
-
+      <div className={`py-20 px-4 md:px-8 overflow-hidden`} style={{ backgroundColor: themeColor }}>
       <div className="pl-6 mb-16">
         <h2 className="text-3xl text-white font-bold mb-4">{content.title}</h2>
         <p className="text-xl text-white">{content.subtitle}</p>
       </div>
 
       <div className="relative bg-white rounded-xl">
-
-      <div className="relative -top-6 left-1/2 -translate-x-1/2 flex justify-center mb-8  ">
+      <div className="relative -top-6 left-1/2 -translate-x-1/2 flex justify-center mb-8">
         <div className="inline-flex bg-white rounded-lg p-1 shadow-xl">
-          <button className="px-6 py-2 rounded-lg" style={{ backgroundColor: themeColor }} text-white font-medium>
-
+          <button className="px-6 py-2 rounded-lg text-white font-medium" style={{ backgroundColor: themeColor }}>
             Monthly
           </button>
           <button className="px-6 py-2 rounded-lg text-gray-600 font-medium flex items-center gap-2">
@@ -34,9 +29,6 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-full mx-auto overflow-hidden">
-
-
-
         {content.pricing?.map((plan, index) => (
           <div 
             key={index} 
@@ -66,9 +58,7 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
           </div>
         ))}
       </div>
-
       </div>
-
     </div>
   );
 };

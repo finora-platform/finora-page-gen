@@ -56,41 +56,6 @@ export const sections: Section[] = [
     }
   },
   { 
-    id: "benefits", 
-    name: "Benefits", 
-    type: "benefits",
-    content: {
-      title: "Why Choose Us",
-      subtitle: "Benefits that set us apart",
-      items: [
-        {
-          title: "Easy Integration",
-          description: "Seamlessly integrate with your existing workflow and tools"
-        },
-        {
-          title: "24/7 Support",
-          description: "Round-the-clock support to help you whenever you need it"
-        },
-        {
-          title: "Scalable Solution",
-          description: "Grow your business without worrying about infrastructure"
-        },
-        {
-          title: "Secure Platform",
-          description: "Enterprise-grade security to protect your data"
-        },
-        {
-          title: "Analytics Dashboard",
-          description: "Comprehensive insights to make informed decisions"
-        },
-        {
-          title: "Custom Workflows",
-          description: "Tailor the platform to match your specific needs"
-        }
-      ]
-    }
-  },
-  { 
     id: "pricing", 
     name: "Pricing", 
     type: "pricing",
@@ -229,11 +194,6 @@ export const sectionFields: Record<string, FormField[]> = {
         { label: "Description", name: "description", type: "textarea" }
       ]
     }
-  ],
-  benefits: [
-    { label: "Title", name: "title", type: "text" },
-    { label: "Subtitle", name: "subtitle", type: "textarea" },
-    { label: "Description", name: "description", type: "textarea" }
   ],
   pricing: [
     { label: "Title", name: "title", type: "text" },

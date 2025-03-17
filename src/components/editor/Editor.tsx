@@ -95,8 +95,8 @@ const Editor = ({
   onToggleSection 
 }: EditorProps) => {
   const configSection = sections.find(s => s.type === 'theme');
-  const contentSections = sections.filter(s => s.type !== 'theme');
-  console.log(contentSections);
+  const contentSections = sections.filter(s => s.type !== 'theme'); // Exclude benefits section
+  // console.log(contentSections);
 
   return (
     <div className="fixed w-80 h-full border-r bg-white backdrop-blur-xl p-4 overflow-auto">

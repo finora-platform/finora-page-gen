@@ -4,7 +4,6 @@ import { Header } from "../navigation/Header";
 import { HeroSection } from "../sections/HeroSection";
 import { HighlightsSection } from "../sections/HighlightsSection";
 import { FeaturesSection } from "../sections/FeaturesSection";
-import { BenefitsSection } from "../sections/BenefitsSection";
 import { PricingSection } from "../sections/PricingSection";
 import { TestimonialsSection } from "../sections/TestimonialsSection";
 import { FAQSection } from "../sections/FAQSection";
@@ -49,8 +48,7 @@ const SectionComponent = ({
       case "hero": return HeroSection;
       case "highlights": return HighlightsSection;
       case "features": return FeaturesSection;
-      case "benefits": return BenefitsSection;
-      case "pricing": return PricingSection; // Adjusted to ensure proper JSX usage
+      case "pricing": return PricingSection;
       case "testimonials": return TestimonialsSection;
       case "faq": return FAQSection;
       case "contact": return ContactSection;
