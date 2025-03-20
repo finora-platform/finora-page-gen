@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -36,16 +35,16 @@ const Index = () => {
     }
   };
 
-const validateContent = (content: any) => {
+  const validateContent = (content: any) => {
     const errors: string[] = [];
-    
+
     if (!content.title?.trim()) {
       errors.push("Title is required");
     }
     if (!content.subtitle?.trim()) {
       errors.push("Subtitle is required");
     }
-    
+
     if (content.items && content.items.length > 0) {
       content.items.forEach((item: any, index: number) => {
         if (!item.title?.trim()) {
@@ -61,23 +60,25 @@ const validateContent = (content: any) => {
   };
 
   const handleUpdateSection = (id: string, content: any) => {
-    
-    if(content.source!='ThemeEditor'){const errors = validateContent(content);
-    
-    if (errors.length > 0) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: (
-          <ul className="mt-2 list-disc list-inside">
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        ),
-      });
-      return;
-    }}
+    console.log(content.source);
+    if (activeSectionId !== 'highlights' && activeSectionId !== 'site-config') {
+      const errors = validateContent(content);
+
+      if (errors.length > 0) {
+        toast({
+          variant: "destructive",
+          title: "Validation Error",
+          description: (
+            <ul className="mt-2 list-disc list-inside">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          ),
+        });
+        return;
+      }
+    }
 
     setSectionList((sections) =>
       sections.map((section) =>
@@ -100,7 +101,9 @@ const validateContent = (content: any) => {
 
     toast({
       title: enabled ? "Section Enabled" : "Section Disabled",
-      description: `${sectionList.find(s => s.id === id)?.name} has been ${enabled ? 'enabled' : 'disabled'}.`,
+      description: `${sectionList.find((s) => s.id === id)?.name} has been ${
+        enabled ? "enabled" : "disabled"
+      }.`,
     });
   };
 
@@ -116,8 +119,8 @@ const validateContent = (content: any) => {
             onToggleSection={handleToggleSection}
           />
         )}
-        <Preview 
-          sections={sectionList} 
+        <Preview
+          sections={sectionList}
           activeSectionId={activeSectionId}
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}

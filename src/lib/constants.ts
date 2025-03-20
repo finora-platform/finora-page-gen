@@ -6,7 +6,7 @@ export const sections: Section[] = [
     name: "Site Configuration", 
     type: "theme",
     content: {
-      themeColor: "#6B46C1",
+      themeColor: "purple",
       logo: "",
     }
   },
@@ -27,12 +27,11 @@ export const sections: Section[] = [
     name: "Highlights",
     type: "highlights",
     content: {
-      title: "Highlights Title",
-      subtitle: "Highlights Subtitle",
       items: [
-        { title: "Item 1", description: "Description for item 1" },
-        { title: "Item 2", description: "Description for item 2" },
-        { title: "Item 3", description: "Description for item 3" },
+        { title: "400+", description: "Clients" },
+        { title: "₹11.20 Cr", description: "Asset under Advisory" },
+        { title: "7", description: "Year of Experience" },
+        { title: "200+", description: "5 star reviews" },
       ],
     },
   },
@@ -51,7 +50,8 @@ export const sections: Section[] = [
         {
           title: "Feature 2",
           description: "Description of feature 2"
-        }
+        },
+        
       ]
     }
   },
@@ -178,9 +178,14 @@ export const sectionFields: Record<string, FormField[]> = {
     { label: "Image URL", name: "image", type: "url" }
   ],
   highlights: [
-    { label: "Title", name:"title", type: "text" },
-    { label: "Subtitle", name: "subtitle", type: "text" },
-    { label: "Items", name: "items", type: "array" },
+    { label: "Highlights",
+      name: "items",
+      type: "array",
+      arrayFields: [
+        { label: "Title", name: "title", type: "text" },
+        { label: "Description", name: "description", type: "textarea" }
+      ] 
+    },
   ],
   features: [
     { label: "Title", name: "title", type: "text" },

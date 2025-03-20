@@ -11,7 +11,7 @@ const ContactSection = ({ themeColor, content }: { themeColor: string; content: 
         <p className="text-xl text-gray-600 text-center mb-8">{content.subtitle}</p>
 
         <div className='flex justify-center'>
-        <Button style={{background:themeColor}}>Get in touch</Button>
+        <Button style={{background:`var(--${themeColor}-secondary)`}}>Get in touch</Button>
         </div>
       </div>
     </section>

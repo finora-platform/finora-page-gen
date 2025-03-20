@@ -21,22 +21,24 @@ interface PreviewProps {
   isSidebarOpen?: boolean;
 }
 
-const SectionComponent = ({ 
-  section,
-  isActive,
-  themeColor,
-}: { 
+interface SectionComponentProps {
   section: Section;
   isActive: boolean;
   themeColor: string;
-}) => {
+}
+
+const SectionComponent = ({
+  section,
+  isActive,
+  themeColor,
+}: SectionComponentProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isActive && sectionRef.current) {
-      sectionRef.current.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'center'
+      sectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
       });
     }
   }, [isActive]);
@@ -45,39 +47,55 @@ const SectionComponent = ({
 
   const Component = (() => {
     switch (section.type) {
-      case "hero": return HeroSection;
-      case "highlights": return HighlightsSection;
-      case "features": return FeaturesSection;
-      case "pricing": return PricingSection;
-      case "testimonials": return TestimonialsSection;
-      case "faq": return FAQSection;
-      case "contact": return ContactSection;
-      case "footer": return FooterSection;
-      default: return null;
+      case "hero":
+        return HeroSection;
+      case "highlights":
+        return HighlightsSection;
+      case "features":
+        return FeaturesSection;
+      case "pricing":
+        return PricingSection;
+      case "testimonials":
+        return TestimonialsSection;
+      case "faq":
+        return FAQSection;
+      case "contact":
+        return ContactSection;
+      case "footer":
+        return FooterSection;
+      default:
+        return null;
     }
   })();
 
   if (!Component) return null;
 
   return (
-    <div 
+    <div
       ref={sectionRef}
-      className={`transition-all duration-300 ${isActive ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
+      className={`transition-all duration-300 ${
+        isActive ? "ring-2 ring-blue-500 ring-offset-2" : ""
+      }`}
     >
       <Component content={section.content} themeColor={themeColor} />
     </div>
   );
 };
 
-const Preview = ({ sections, activeSectionId, onToggleSidebar, isSidebarOpen = true }: PreviewProps) => {
+const Preview = ({
+  sections,
+  activeSectionId,
+  onToggleSidebar,
+  isSidebarOpen = true,
+}: PreviewProps) => {
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handleNavigation = (sectionId: string) => {
-    const section = sections.find(s => s.id === sectionId);
+    const section = sections.find((s) => s.id === sectionId);
     if (section) {
       const element = document.getElementById(section.id);
-      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -94,52 +112,45 @@ const Preview = ({ sections, activeSectionId, onToggleSidebar, isSidebarOpen = t
     });
   };
 
-  const themeSection = sections.find(s => s.type === 'theme');
-  const themeColor = themeSection?.content.themeColor || '#6B46C1';
+  const themeSection = sections.find((s) => s.type === "theme");
+  const themeColor = themeSection?.content.themeColor || "purple";
   const logo = themeSection?.content.logo;
 
   return (
-<div className={`flex-1 bg-[#e5e7eb] ${isSidebarOpen ? 'pl-80' : 'pl-0'}`}>
-
-      <div className="flex items-center justify-between p-4 border-b bg-white">
-<Button 
-  variant="outline" 
-  size="icon"
-  onClick={() => {
-    onToggleSidebar();
-  }}
-
+    <div className={`flex-1 bg-[#e5e7eb] ${isSidebarOpen ? "pl-80" : "pl-0"}`}>
+      <div className="flex items-center justify-between p-4 border-b">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => {
+            onToggleSidebar();
+          }}
         >
           {isSidebarOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
         </Button>
         <div className="flex gap-2">
-          <Button 
-            variant="outline"
-            onClick={handlePreview}
-          >
+          <Button variant="outline" onClick={handlePreview}>
             <Eye className="mr-2" />
             Preview
           </Button>
-          <Button 
-            onClick={handlePublish}
-          >
+          <Button style={{ backgroundColor: `var(--${themeColor}-secondary)` }} onClick={handlePublish}>
             <Rocket className="mr-2" />
             Publish
           </Button>
         </div>
       </div>
       <div ref={previewRef} className="bg-white rounded-xl shadow-sm mx-6 my-6">
-        <Header 
-          sections={sections} 
+        <Header
+          sections={sections}
           themeColor={themeColor}
           logo={logo}
-          onNavigate={handleNavigation} 
+          onNavigate={handleNavigation}
         />
         <div className="flex space-y-16 flex-col">
           {sections.map((section) => (
             <div key={section.id} id={section.id}>
-              <SectionComponent 
-                section={section} 
+              <SectionComponent
+                section={section}
                 isActive={section.id === activeSectionId}
                 themeColor={themeColor} // Pass themeColor here
               />

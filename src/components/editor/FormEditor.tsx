@@ -1,3 +1,4 @@
+import { sections } from "@/lib/constants";
 import { FormField } from "@/lib/types";
 import { Plus } from "lucide-react";
 
@@ -8,8 +9,8 @@ interface FormEditorProps {
 }
 
 export const FormEditor = ({ fields, content, onChange }: FormEditorProps) => {
-  const handleChange = (name: string, value: any) => {
-    onChange({ ...content, [name]: value });
+  const handleChange = (name: string, value: any, source?: string) => {
+    onChange({ ...content, [name]: value, source: source});
   };
 
   const handleArrayChange = (fieldName: string, index: number, value: any) => {
@@ -20,13 +21,14 @@ export const FormEditor = ({ fields, content, onChange }: FormEditorProps) => {
 
   const addArrayItem = (fieldName: string) => {
     const newArray = [...(content[fieldName] || []), {}];
-    handleChange(fieldName, newArray);
+    handleChange(fieldName, newArray, 'Validation');
   };
 
   const removeArrayItem = (fieldName: string, index: number) => {
     const newArray = content[fieldName].filter((_: any, i: number) => i !== index);
     handleChange(fieldName, newArray);
   };
+  
 
   return (
     <div className="space-y-4">
@@ -44,7 +46,7 @@ export const FormEditor = ({ fields, content, onChange }: FormEditorProps) => {
                         type="text"
                         value={item[arrayField.name] || ""}
                         onChange={(e) => handleArrayChange(field.name, index, { [arrayField.name]: e.target.value })}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                   ))}
@@ -68,7 +70,7 @@ export const FormEditor = ({ fields, content, onChange }: FormEditorProps) => {
               type={field.type === "url" ? "url" : "text"}
               value={content[field.name] || ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border pt-1 "
             />
           )}
         </div>

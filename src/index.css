@@ -4,6 +4,30 @@
 
 @layer base {
   :root {
+    --purple: #6b46c1;
+    --purple-secondary: #936ee9;
+
+    --blue: #2563eb;
+    --blue-secondary: #bfdbfe;
+
+    --green: #1e974b;
+    --green-secondary: #d1fae5;
+
+    --orange: #ea580c;
+    --orange-secondary: #ffedd5;
+
+    --red: #dc2626;
+    --red-secondary: #fee2e2;
+
+    --pink: #db2777;
+    --pink-secondary: #fbcfe8;
+
+    --violet: #7c3aed;
+    --violet-secondary: #e0c6ff;
+
+    --teal: #2dd4bf;
+    --teal-secondary: #a7f3d0;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

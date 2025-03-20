@@ -2,14 +2,14 @@ import { Section } from "@/lib/types";
 import { AccordionContent } from "@/components/ui/accordion";
 
 const THEME_COLORS = [
-  "#6B46C1", // Purple
-  "#2563EB", // Blue
-  "#16A34A", // Green
-  "#EA580C", // Orange
-  "#DC2626", // Red
-  "#DB2777", // Pink
-  "#7C3AED", // Violet
-  "#2DD4BF", // Teal
+  "purple", // Purple
+  "blue", // Blue
+  "green", // Green
+  "orange", // Orange
+  "red", // Red
+  "pink", // Pink
+  "violet", // Violet
+  "teal", // Teal
 ];
 
 interface ThemeEditorProps {
@@ -25,12 +25,12 @@ export const ThemeEditor = ({ section, onToggle }: ThemeEditorProps) => (
           <button
             key={color}
     onClick={() => {
-        onToggle({ themeColor: color, source: 'ThemeEditor' }); // Include source
+        onToggle({ themeColor: color, source: 'Validation' }); // Include source
     }}
 
             className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
             style={{ 
-              backgroundColor: color,
+              backgroundColor: `var(--${color})`,
               borderColor: section.content.themeColor === color ? 'white' : 'transparent',
               boxShadow: section.content.themeColor === color ? '0 0 0 2px #000' : 'none'
             }}
