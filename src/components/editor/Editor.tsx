@@ -1,4 +1,3 @@
-
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Section } from "@/lib/types";
@@ -23,6 +22,8 @@ interface SortableItemProps {
   onToggle: (value: any) => void;
   onClick: () => void;
   isDraggable?: boolean;
+  onUpdateSection: (id: string, content: any) => void;
+  activeSection: Section | undefined; // Ensure this is included
 }
 
 const SortableItem = ({ 
@@ -30,7 +31,9 @@ const SortableItem = ({
   isActive,
   onToggle,
   onClick,
-  isDraggable = true
+  isDraggable = true,
+  onUpdateSection,
+  activeSection // Ensure this is included
 }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: section.id,
@@ -42,11 +45,12 @@ const SortableItem = ({
     transition,
   };
 
+
   return (
     <div ref={setNodeRef} style={style}>
-      <AccordionItem value={section.id} className="border-none">
-        <div className={`flex items-center p-3 mb-2 rounded-lg ${
-          isActive ? "bg-white shadow-lg" : "hover:bg-white/50"
+      <AccordionItem value={section.id} >
+        <div className={`flex items-center mb-2 rounded-lg px-8 ${
+          isActive ? "bg-white" : "hover:bg-white/50"
         }`}>
           {isDraggable && (
             <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
@@ -72,11 +76,12 @@ const SortableItem = ({
           <ThemeEditor section={section} onToggle={onToggle} />
         ) : (
           <AccordionContent>
-            <div className="p-4">
+            <div className="px-10">
               <FormEditor
                 fields={sectionFields[section.type]}
                 content={section.content}
-                onChange={(content) => onToggle(content)}
+                onChange={(content) => onUpdateSection(section.id, content)}
+                activeSection={activeSection} // Ensure this is included
               />
             </div>
           </AccordionContent>
@@ -97,9 +102,8 @@ const Editor = ({
   const contentSections = sections.filter(s => s.type !== 'theme');
 
   return (
-    <div className="w-80 h-full border-r bg-gray-50/50 backdrop-blur-xl p-4 overflow-auto">
+    <div className="fixed w-80 h-full border-r bg-white backdrop-blur-xl  overflow-auto">
       <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Site Configuration</h2>
         <Accordion type="single" collapsible className="w-full">
           {configSection && (
             <SortableItem
@@ -109,26 +113,22 @@ const Editor = ({
               onToggle={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
               onClick={() => onSectionSelect(configSection.id)}
               isDraggable={false}
+              onUpdateSection={onUpdateSection}
+              activeSection={activeSection}
             />
           )}
-        </Accordion>
-      </div>
-
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Sections</h2>
-        <SortableContext items={contentSections} strategy={verticalListSortingStrategy}>
-          <Accordion type="single" collapsible className="w-full">
-            {contentSections.map((section) => (
+          {contentSections.map((section) => (
               <SortableItem
                 key={section.id}
                 section={section}
                 isActive={activeSection?.id === section.id}
                 onToggle={(enabled) => onToggleSection(section.id, enabled)}
                 onClick={() => onSectionSelect(section.id)}
+                onUpdateSection={onUpdateSection}
+                activeSection={activeSection}
               />
-            ))}          
-          </Accordion>
-        </SortableContext>
+            ))}
+        </Accordion>
       </div>
     </div>
   );

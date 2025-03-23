@@ -4,6 +4,24 @@
 
 @layer base {
   :root {
+    --blue: #7CD4FD;
+    --blue-secondary: #026AA2;
+
+    --darkblue: #84ADFF;
+    --darkblue-secondary: #004EEB;
+
+    --green: #73E2A3;
+    --green-secondary: #087443;
+    
+    --yellow: #FDE272;
+    --yellow-secondary: #A15C07;
+    
+    --pink: #EEAAFD;
+    --pink-secondary: #9F1AB1;
+
+    --purple: #BDB4FE;
+    --purple-secondary: #5925DC;
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

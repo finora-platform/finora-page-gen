@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -20,7 +19,7 @@ const Index = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sectionList));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sectionList));
   }, [sectionList]);
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -38,14 +37,14 @@ const Index = () => {
 
   const validateContent = (content: any) => {
     const errors: string[] = [];
-    
+
     if (!content.title?.trim()) {
       errors.push("Title is required");
     }
     if (!content.subtitle?.trim()) {
       errors.push("Subtitle is required");
     }
-    
+
     if (content.items && content.items.length > 0) {
       content.items.forEach((item: any, index: number) => {
         if (!item.title?.trim()) {
@@ -61,21 +60,23 @@ const Index = () => {
   };
 
   const handleUpdateSection = (id: string, content: any) => {
-    const errors = validateContent(content);
-    
-    if (errors.length > 0) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: (
-          <ul className="mt-2 list-disc list-inside">
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        ),
-      });
-      return;
+    if (activeSectionId !== 'highlights' && activeSectionId !== 'site-config' && content.source !== 'Validation') {
+      const errors = validateContent(content);
+
+      if (errors.length > 0) {
+        toast({
+          variant: "destructive",
+          title: "Validation Error",
+          description: (
+            <ul className="mt-2 list-disc list-inside">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          ),
+        });
+        return;
+      }
     }
 
     setSectionList((sections) =>
@@ -99,12 +100,14 @@ const Index = () => {
 
     toast({
       title: enabled ? "Section Enabled" : "Section Disabled",
-      description: `${sectionList.find(s => s.id === id)?.name} has been ${enabled ? 'enabled' : 'disabled'}.`,
+      description: `${sectionList.find((s) => s.id === id)?.name} has been ${
+        enabled ? "enabled" : "disabled"
+      }.`,
     });
   };
 
   return (
-    <div className="flex w-full h-screen bg-gray-50">
+    <div className="flex w-full bg-gray-50">
       <DndContext onDragEnd={handleDragEnd}>
         {isSidebarOpen && (
           <Editor
@@ -115,8 +118,8 @@ const Index = () => {
             onToggleSection={handleToggleSection}
           />
         )}
-        <Preview 
-          sections={sectionList} 
+        <Preview
+          sections={sectionList}
           activeSectionId={activeSectionId}
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}

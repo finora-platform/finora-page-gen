@@ -6,13 +6,13 @@ export const sections: Section[] = [
     name: "Site Configuration", 
     type: "theme",
     content: {
-      themeColor: "#6B46C1",
+      themeColor: "blue",
       logo: "",
     }
   },
   { 
     id: "hero", 
-    name: "Hero", 
+    name: "Hero Section", 
     type: "hero",
     content: {
       title: "Welcome to Our Platform",
@@ -21,6 +21,19 @@ export const sections: Section[] = [
       buttonUrl: "#",
       image: "/placeholder.svg"
     }
+  },
+  {
+    id: "highlights",
+    name: "Highlights",
+    type: "highlights",
+    content: {
+      items: [
+        { title: "400+", description: "Clients" },
+        { title: "₹11.20 Cr", description: "Asset under Advisory" },
+        { title: "7", description: "Year of Experience" },
+        { title: "200+", description: "5 star reviews" },
+      ],
+    },
   },
   { 
     id: "features", 
@@ -37,48 +50,14 @@ export const sections: Section[] = [
         {
           title: "Feature 2",
           description: "Description of feature 2"
-        }
-      ]
-    }
-  },
-  { 
-    id: "benefits", 
-    name: "Benefits", 
-    type: "benefits",
-    content: {
-      title: "Why Choose Us",
-      subtitle: "Benefits that set us apart",
-      items: [
-        {
-          title: "Easy Integration",
-          description: "Seamlessly integrate with your existing workflow and tools"
         },
-        {
-          title: "24/7 Support",
-          description: "Round-the-clock support to help you whenever you need it"
-        },
-        {
-          title: "Scalable Solution",
-          description: "Grow your business without worrying about infrastructure"
-        },
-        {
-          title: "Secure Platform",
-          description: "Enterprise-grade security to protect your data"
-        },
-        {
-          title: "Analytics Dashboard",
-          description: "Comprehensive insights to make informed decisions"
-        },
-        {
-          title: "Custom Workflows",
-          description: "Tailor the platform to match your specific needs"
-        }
+        
       ]
     }
   },
   { 
     id: "pricing", 
-    name: "Pricing", 
+    name: "Plans", 
     type: "pricing",
     content: {
       title: "Simple, Transparent Pricing",
@@ -147,7 +126,7 @@ export const sections: Section[] = [
   },
   { 
     id: "faq", 
-    name: "FAQ", 
+    name: "FAQs", 
     type: "faq",
     content: {
       title: "Frequently Asked Questions",
@@ -198,6 +177,16 @@ export const sectionFields: Record<string, FormField[]> = {
     { label: "Button URL", name: "buttonUrl", type: "url" },
     { label: "Image URL", name: "image", type: "url" }
   ],
+  highlights: [
+    { label: "Highlights",
+      name: "items",
+      type: "array",
+      arrayFields: [
+        { label: "Title", name: "title", type: "text" },
+        { label: "Description", name: "description", type: "textarea" }
+      ] 
+    },
+  ],
   features: [
     { label: "Title", name: "title", type: "text" },
     { label: "Subtitle", name: "subtitle", type: "textarea" },
@@ -210,11 +199,6 @@ export const sectionFields: Record<string, FormField[]> = {
         { label: "Description", name: "description", type: "textarea" }
       ]
     }
-  ],
-  benefits: [
-    { label: "Title", name: "title", type: "text" },
-    { label: "Subtitle", name: "subtitle", type: "textarea" },
-    { label: "Description", name: "description", type: "textarea" }
   ],
   pricing: [
     { label: "Title", name: "title", type: "text" },
