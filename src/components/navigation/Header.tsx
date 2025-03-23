@@ -28,7 +28,7 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
     <header className="sticky top-0 rounded-xl bg-white/80 backdrop-blur-sm z-50 border-b w-full">
       <div className="mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <nav className="flex-shrink-0 flex space-x-8">
+          <nav className="flex-shrink-0 flex space-x-8"  >
             {logo ? (
               <img src={logo} alt="Logo" className="h-8 w-auto" />
             ) : (
@@ -39,13 +39,14 @@ export const Header = ({ sections, themeColor = '#6B46C1', logo, onNavigate }: H
                 key={section.id}
                 onClick={() => onNavigate(section.id)}
                 className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                style={{ color: `var(--${themeColor}-secondary)` }}
               >
                 {section.name}
               </button>
             ))}
           </nav>
           <nav className="hidden md:flex space-x-4">
-            <Button variant="outline" onClick={() => onNavigate('contact')}>Contact Us</Button>
+            <Button variant="outline" style={{ color: `var(--${themeColor}-secondary)`,border: `1px solid var(--${themeColor}-secondary)` }} onClick={() => onNavigate('contact')}>Contact Us</Button>
             <Button className={`text-white bg-[${themeColor}] hover:bg-[${themeColor}/80]`} style={{ backgroundColor: `var(--${themeColor}-secondary)` }} onClick={() => onNavigate('pricing')}>See plans</Button>
 
           </nav>

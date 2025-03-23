@@ -60,8 +60,7 @@ const Index = () => {
   };
 
   const handleUpdateSection = (id: string, content: any) => {
-    console.log(content.source);
-    if (activeSectionId !== 'highlights' && activeSectionId !== 'site-config') {
+    if (activeSectionId !== 'highlights' && activeSectionId !== 'site-config' && content.source !== 'Validation') {
       const errors = validateContent(content);
 
       if (errors.length > 0) {

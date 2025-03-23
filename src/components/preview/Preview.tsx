@@ -113,7 +113,7 @@ const Preview = ({
   };
 
   const themeSection = sections.find((s) => s.type === "theme");
-  const themeColor = themeSection?.content.themeColor || "purple";
+  const themeColor = themeSection?.content.themeColor || "blue";
   const logo = themeSection?.content.logo;
 
   return (

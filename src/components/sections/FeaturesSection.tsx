@@ -11,7 +11,7 @@ export const FeaturesSection = ({
   themeColor,
 }: FeaturesSectionProps) => {
   const featureCount = content.items.length;
-  let gridClasses = "grid gap-8 max-w-6xl mx-auto";
+  let gridClasses = "grid gap-8 max-w-6xl";
 
   if (featureCount === 1) {
     gridClasses += " grid-cols-1";
@@ -24,10 +24,10 @@ export const FeaturesSection = ({
   return (
     <div className={`py-20 px-36`} style={{ backgroundColor: `var(--${themeColor})` }}>
       <div className="text-center mb-16">
-        <h2 className="text-3xl text-left font-bold mb-4 text-white">
+        <h2 className="text-3xl text-left font-semibold mb-4">
           {content.title}
         </h2>
-        <p className="text-xl text-left text-gray-200">{content.subtitle}</p>
+        <p className="text-xl text-left">{content.subtitle}</p>
       </div>
       <div className={gridClasses}>
         {content.items?.map((feature, index) => (
@@ -40,10 +40,10 @@ export const FeaturesSection = ({
                 <Circle stroke={`var(--${themeColor})`} />
               </span>
             </div>
-            <h3 className="text-xl text-center font-semibold mb-3 text-[#5D4B8C]">
+            <h3 className="text-xl text-center font-semibold mb-3">
               {feature.title}
             </h3>
-            <p className="text-gray-600 text-center" style={{ color : `var(--${themeColor}-secondary)`}}>{feature.description}</p>
+            <p className="text-center">{feature.description}</p>
           </div>
         ))}
       </div>

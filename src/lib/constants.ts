@@ -6,13 +6,13 @@ export const sections: Section[] = [
     name: "Site Configuration", 
     type: "theme",
     content: {
-      themeColor: "purple",
+      themeColor: "blue",
       logo: "",
     }
   },
   { 
     id: "hero", 
-    name: "Hero", 
+    name: "Hero Section", 
     type: "hero",
     content: {
       title: "Welcome to Our Platform",
@@ -57,7 +57,7 @@ export const sections: Section[] = [
   },
   { 
     id: "pricing", 
-    name: "Pricing", 
+    name: "Plans", 
     type: "pricing",
     content: {
       title: "Simple, Transparent Pricing",
@@ -126,7 +126,7 @@ export const sections: Section[] = [
   },
   { 
     id: "faq", 
-    name: "FAQ", 
+    name: "FAQs", 
     type: "faq",
     content: {
       title: "Frequently Asked Questions",

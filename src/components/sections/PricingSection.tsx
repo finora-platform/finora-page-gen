@@ -11,8 +11,8 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
   return (
       <div className={`py-20 px-4 md:px-8 overflow-hidden`} style={{ backgroundColor: `var(--${themeColor})` }}>
       <div className="pl-6 mb-16">
-        <h2 className="text-3xl text-white font-bold mb-4">{content.title}</h2>
-        <p className="text-xl text-white">{content.subtitle}</p>
+        <h2 className="text-4xl font-semibold mb-4">{content.title}</h2>
+        <p className="text-xl">{content.subtitle}</p>
       </div>
 
       <div className="relative bg-white rounded-xl">
@@ -34,7 +34,9 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
             key={index} 
             className="p-8 rounded-2xl bg-white shadow-xl border"
           >
-            <div className="text-[#5D4B8C] text-sm font-medium mb-2 text-center">{plan.plan}</div>
+            <div className="flex justify-center mb-2">
+            <div className="border text-sm font-medium mb-2 text-center py-1 px-3 rounded-full" style={{ color: `var(--${themeColor}-secondary)`, borderColor: `var(--${themeColor})`, background : `var(--${themeColor})`}}> <span> {plan.plan} </span></div>
+            </div>
             <div className="mb-6 flex flex-col items-center">
               <div className="text-4xl font-bold flex items-start">
                 <span className="text-2xl mr-1">₹</span>

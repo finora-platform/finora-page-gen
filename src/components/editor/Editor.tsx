@@ -22,7 +22,8 @@ interface SortableItemProps {
   onToggle: (value: any) => void;
   onClick: () => void;
   isDraggable?: boolean;
-  onUpdateSection: (id: string, content: any) => void; // Ensure this is included
+  onUpdateSection: (id: string, content: any) => void;
+  activeSection: Section | undefined; // Ensure this is included
 }
 
 const SortableItem = ({ 
@@ -31,7 +32,8 @@ const SortableItem = ({
   onToggle,
   onClick,
   isDraggable = true,
-  onUpdateSection // Ensure this is included
+  onUpdateSection,
+  activeSection // Ensure this is included
 }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: section.id,
@@ -43,11 +45,12 @@ const SortableItem = ({
     transition,
   };
 
+
   return (
     <div ref={setNodeRef} style={style}>
-      <AccordionItem value={section.id} className="border-none">
-        <div className={`flex items-center mb-2 rounded-lg ${
-          isActive ? "bg-white shadow-lg" : "hover:bg-white/50"
+      <AccordionItem value={section.id} >
+        <div className={`flex items-center mb-2 rounded-lg px-8 ${
+          isActive ? "bg-white" : "hover:bg-white/50"
         }`}>
           {isDraggable && (
             <div {...attributes} {...listeners} className="mr-2 text-gray-400 hover:text-gray-600">
@@ -73,11 +76,12 @@ const SortableItem = ({
           <ThemeEditor section={section} onToggle={onToggle} />
         ) : (
           <AccordionContent>
-            <div className="p-4">
+            <div className="px-10">
               <FormEditor
                 fields={sectionFields[section.type]}
                 content={section.content}
-                onChange={(content) => onUpdateSection(section.id, content)} // Updated to use onUpdateSection
+                onChange={(content) => onUpdateSection(section.id, content)}
+                activeSection={activeSection} // Ensure this is included
               />
             </div>
           </AccordionContent>
@@ -95,11 +99,10 @@ const Editor = ({
   onToggleSection 
 }: EditorProps) => {
   const configSection = sections.find(s => s.type === 'theme');
-  const contentSections = sections.filter(s => s.type !== 'theme'); // Exclude benefits section
-  // console.log(contentSections);
+  const contentSections = sections.filter(s => s.type !== 'theme');
 
   return (
-    <div className="fixed w-80 h-full border-r bg-white backdrop-blur-xl p-4 overflow-auto">
+    <div className="fixed w-80 h-full border-r bg-white backdrop-blur-xl  overflow-auto">
       <div className="mb-8">
         <Accordion type="single" collapsible className="w-full">
           {configSection && (
@@ -110,7 +113,8 @@ const Editor = ({
               onToggle={(content) => onUpdateSection(configSection.id, { ...configSection.content, ...content })}
               onClick={() => onSectionSelect(configSection.id)}
               isDraggable={false}
-              onUpdateSection={onUpdateSection} // Ensure this is passed
+              onUpdateSection={onUpdateSection}
+              activeSection={activeSection}
             />
           )}
           {contentSections.map((section) => (
@@ -120,7 +124,8 @@ const Editor = ({
                 isActive={activeSection?.id === section.id}
                 onToggle={(enabled) => onToggleSection(section.id, enabled)}
                 onClick={() => onSectionSelect(section.id)}
-                onUpdateSection={onUpdateSection} // Ensure this is passed
+                onUpdateSection={onUpdateSection}
+                activeSection={activeSection}
               />
             ))}
         </Accordion>

@@ -4,30 +4,24 @@
 
 @layer base {
   :root {
-    --purple: #6b46c1;
-    --purple-secondary: #936ee9;
+    --blue: #7CD4FD;
+    --blue-secondary: #026AA2;
 
-    --blue: #2563eb;
-    --blue-secondary: #bfdbfe;
+    --darkblue: #84ADFF;
+    --darkblue-secondary: #004EEB;
 
-    --green: #1e974b;
-    --green-secondary: #d1fae5;
+    --green: #73E2A3;
+    --green-secondary: #087443;
+    
+    --yellow: #FDE272;
+    --yellow-secondary: #A15C07;
+    
+    --pink: #EEAAFD;
+    --pink-secondary: #9F1AB1;
 
-    --orange: #ea580c;
-    --orange-secondary: #ffedd5;
-
-    --red: #dc2626;
-    --red-secondary: #fee2e2;
-
-    --pink: #db2777;
-    --pink-secondary: #fbcfe8;
-
-    --violet: #7c3aed;
-    --violet-secondary: #e0c6ff;
-
-    --teal: #2dd4bf;
-    --teal-secondary: #a7f3d0;
-
+    --purple: #BDB4FE;
+    --purple-secondary: #5925DC;
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

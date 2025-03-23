@@ -29,7 +29,7 @@ export const HighlightsSection = ({
           {content.items?.map((item, index) => (
             <div key={index} className="text-center">
               <h3 className="text-5xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-600">{item.description}</p>
+              <p className="font-semibold">{item.description}</p>
             </div>
           ))}
         </div>

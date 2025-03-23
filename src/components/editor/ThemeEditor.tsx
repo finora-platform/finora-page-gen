@@ -2,14 +2,12 @@ import { Section } from "@/lib/types";
 import { AccordionContent } from "@/components/ui/accordion";
 
 const THEME_COLORS = [
-  "purple", // Purple
-  "blue", // Blue
-  "green", // Green
-  "orange", // Orange
-  "red", // Red
-  "pink", // Pink
-  "violet", // Violet
-  "teal", // Teal
+  "blue",
+  "darkblue",
+  "green",
+  "yellow",
+  "pink", 
+  "purple",
 ];
 
 interface ThemeEditorProps {
@@ -39,11 +37,14 @@ export const ThemeEditor = ({ section, onToggle }: ThemeEditorProps) => (
       </div>
       <input
         type="text"
+        id="logo-url"
+        name="logo"
         placeholder="Logo URL"
         value={section.content.logo || ''}
         onChange={(e) => onToggle({ logo: e.target.value })}
         className="w-full p-2 border rounded"
       />
+
     </div>
   </AccordionContent>
 );
