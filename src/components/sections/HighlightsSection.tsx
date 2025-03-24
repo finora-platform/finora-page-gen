@@ -28,8 +28,8 @@ export const HighlightsSection = ({
         <div className={gridClasses}>
           {content.items?.map((item, index) => (
             <div key={index} className="text-center">
-              <h3 className="text-5xl font-semibold mb-2">{item.title}</h3>
-              <p className="font-semibold">{item.description}</p>
+              <h3 className="text-7xl font-semibold mb-2">{item.title}</h3>
+              <p className="text-2xl font-semibold">{item.description}</p>
             </div>
           ))}
         </div>

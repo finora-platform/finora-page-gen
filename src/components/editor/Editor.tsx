@@ -49,7 +49,7 @@ const SortableItem = ({
   return (
     <div ref={setNodeRef} style={style}>
       <AccordionItem value={section.id} >
-        <div className={`flex items-center mb-2 rounded-lg px-8 ${
+        <div className={`flex items-center mb-2 rounded-lg px-4 ${
           isActive ? "bg-white" : "hover:bg-white/50"
         }`}>
           {isDraggable && (
@@ -76,7 +76,7 @@ const SortableItem = ({
           <ThemeEditor section={section} onToggle={onToggle} />
         ) : (
           <AccordionContent>
-            <div className="px-10">
+            <div className="px-4">
               <FormEditor
                 fields={sectionFields[section.type]}
                 content={section.content}

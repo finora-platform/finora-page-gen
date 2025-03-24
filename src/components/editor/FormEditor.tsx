@@ -44,20 +44,23 @@ export const FormEditor = ({
   };
 
   if (activeSection.id === "highlights") {
-    // const highlights = fields.array
     return (
-      <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-100">
+      <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
         <div className="space-y-4">
-          {fields.map((field) => (
-            <div className="space-y-4" key={field.name}>
-              {(content[field.name] || []).map((item: any, index: number) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="flex-1 flex rounded-xl overflow-hidden border border-gray-200">
-                    <div className="p-2 border-r border-gray-200">
-                      <p className="text-gray-600 font-medium">
-                        {item.description}
-                      </p>
-                    </div>
+          {fields.map((field) => {
+            const items = Array.isArray(content[field.name])
+              ? content[field.name]
+              : [];
+            return (
+              <div className="space-y-4" key={field.name}>
+                {items.map((item: any, index: number) => (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className="flex-1 flex rounded-xl overflow-hidden border border-gray-200">
+                      <div className="p-2 border-r border-gray-200">
+                        <p className="text-gray-600 font-medium">
+                          {item.description}
+                        </p>
+                      </div>
                       {field.arrayFields.map(
                         (arrayField) =>
                           arrayField.type === "text" && (
@@ -68,15 +71,99 @@ export const FormEditor = ({
                               value={item[arrayField.name] || ""} // Set the value from the item
                               onChange={(e) => {
                                 handleArrayChange(field.name, index, {
-                                  [arrayField.name]: e.target.value,  
+                                  [arrayField.name]: e.target.value,
                                 });
                               }}
                             />
                           )
                       )}
+                    </div>
                   </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSection.id === "pricing") {
+    return (
+      <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
+        <h2 className="text-lg font-semibold">{content.title}</h2>
+        <p className="text-gray-600 mb-4">{content.subtitle}</p>
+        <div className="space-y-4">
+          {(content.pricing || []).map((plan: any, index: number) => (
+            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
+              <div className="space-y-2">
+                {/* Plan Name Input */}
+                <div>
+                  <label htmlFor={`plan-name-${index}`} className="block text-sm font-medium text-gray-700">
+                    Plan Name
+                  </label>
+                  <Input
+                    type="text"
+                    id={`plan-name-${index}`}
+                    name={`plan-name-${index}`}
+                    value={plan.plan || ""}
+                    onChange={(e) => {
+                      const updatedPlan = { ...plan, plan: e.target.value };
+                      const updatedPricing = [...(content.pricing || [])];
+                      updatedPricing[index] = updatedPlan;
+                      handleChange("pricing", updatedPricing);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Plan Name"
+                  />
                 </div>
-              ))}
+  
+                {/* Plan Price Input */}
+                <div>
+                  <label htmlFor={`plan-price-${index}`} className="block text-sm font-medium text-gray-700">
+                    Plan Price
+                  </label>
+                  <Input
+                    type="text"
+                    id={`plan-price-${index}`}
+                    name={`plan-price-${index}`}
+                    value={plan.price || ""}
+                    onChange={(e) => {
+                      const updatedPlan = { ...plan, price: e.target.value };
+                      const updatedPricing = [...(content.pricing || [])];
+                      updatedPricing[index] = updatedPlan;
+                      handleChange("pricing", updatedPricing);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Plan Price"
+                  />
+                </div>
+  
+                {/* Features List */}
+                <label className="block text-sm font-medium text-gray-700">
+                   Feature
+                  </label>
+                  {plan.features.map((feature: string, featureIndex: number) => (
+                      <div>
+                        <Input
+                          type="text"
+                          id={`feature-${index}-${featureIndex}`}
+                          name={`feature-${index}-${featureIndex}`}
+                          value={feature}
+                          onChange={(e) => {
+                            const updatedFeatures = [...plan.features];
+                            updatedFeatures[featureIndex] = e.target.value;
+                            const updatedPlan = { ...plan, features: updatedFeatures };
+                            const updatedPricing = [...(content.pricing || [])];
+                            updatedPricing[index] = updatedPlan;
+                            handleChange("pricing", updatedPricing);
+                          }}
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="Feature"
+                        />
+                      </div>
+                  ))}
+              </div>
             </div>
           ))}
         </div>
@@ -85,9 +172,9 @@ export const FormEditor = ({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mb-6 bg-white p-4 rounded-md shadow-sm border">
       {fields.map((field) => (
-        <div key={field.name} className="space-y-2">
+        <div key={field.name} className="space-y-2 ">
           <label
             className="block text-sm font-medium text-gray-700"
             htmlFor={field.name}
@@ -106,7 +193,7 @@ export const FormEditor = ({
                       >
                         {arrayField.label}
                       </label>
-                      <input
+                      <Input
                         type="text"
                         id={`${arrayField.name}-${index}`}
                         name={arrayField.name}
@@ -136,7 +223,7 @@ export const FormEditor = ({
               </button>
             </div>
           ) : (
-            <input
+            <Input
               type={field.type === "url" ? "url" : "text"}
               id={field.name}
               name={field.name}
