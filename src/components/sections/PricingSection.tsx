@@ -52,7 +52,7 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
             <ul className="space-y-4 mt-8 ">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-center">
-                  <CircleCheck className="w-5 h-5 mr-2 text-[#5D4B8C]" />
+                  <CircleCheck className="w-5 h-5 mr-2 text-green-500" />
                   <span className="text-gray-600">{feature}</span>
                 </li>
               ))}
