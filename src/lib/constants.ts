@@ -65,7 +65,7 @@ export const sections: Section[] = [
       pricing: [
         {
           plan: "Basic",
-          price: "$9/mo",
+          price: "999",
           features: [
             "Up to 10 users",
             "Basic analytics",
@@ -79,7 +79,7 @@ export const sections: Section[] = [
         },
         {
           plan: "Pro",
-          price: "$29/mo",
+          price: "12999",
           features: [
             "Up to 50 users",
             "Advanced analytics",
@@ -93,7 +93,7 @@ export const sections: Section[] = [
         },
         {
           plan: "Enterprise",
-          price: "$99/mo",
+          price: "45999",
           features: [
             "Unlimited users",
             "Custom analytics",
@@ -120,6 +120,16 @@ export const sections: Section[] = [
           quote: "Amazing product!",
           author: "John Doe",
           role: "CEO, Company Inc"
+        },
+        {
+          quote: "Good product!",
+          author: "John Doe",
+          role: "CEO, Company Inc"
+        },
+        {
+          quote: "Amazing product!",
+          author: "John Doe",
+          role: "CEO, Company Inc"
         }
       ]
     }
@@ -135,7 +145,11 @@ export const sections: Section[] = [
         {
           question: "What is your product?",
           answer: "Our product is a comprehensive solution..."
-        }
+        },
+        {
+          question: "What is your product?",
+          answer: "Our product is a comprehensive solution..."
+        },
       ]
     }
   },

@@ -1,6 +1,5 @@
 import { Section } from "@/lib/types";
 import { CircleCheck } from "lucide-react";
-import { useState } from "react";
 
 interface PricingSectionProps {
   content: Section["content"];
@@ -39,7 +38,7 @@ export const PricingSection = ({ content, themeColor='#5D4B8C' }: PricingSection
             </div>
             <div className="mb-6 flex flex-col items-center">
               <div className="text-4xl font-bold flex items-start">
-                <span className="text-2xl mr-1">₹</span>
+                <span className="mr-1">₹</span>
                 {plan.price}
               </div>
               <div className="text-gray-500 text-sm mt-1">

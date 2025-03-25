@@ -139,7 +139,7 @@ const Preview = ({
           </Button>
         </div>
       </div>
-      <div ref={previewRef} className="bg-white rounded-xl shadow-sm mx-6 my-6">
+      <div ref={previewRef} className="bg-white rounded-xl shadow-sm mx-6 mb-6">
         <Header
           sections={sections}
           themeColor={themeColor}

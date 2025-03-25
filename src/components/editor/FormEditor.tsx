@@ -43,6 +43,8 @@ export const FormEditor = ({
     handleChange(fieldName, newArray);
   };
 
+
+
   if (activeSection.id === "highlights") {
     return (
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
@@ -54,7 +56,7 @@ export const FormEditor = ({
             return (
               <div className="space-y-4" key={field.name}>
                 {items.map((item: any, index: number) => (
-                  <div key={index} className="flex items-center gap-4">
+                  <div key={item.id || `${field.name}-${index}`} className="flex items-center gap-4">
                     <div className="flex-1 flex rounded-xl overflow-hidden border border-gray-200">
                       <div className="p-2 border-r border-gray-200">
                         <p className="text-gray-600 font-medium">
@@ -91,13 +93,42 @@ export const FormEditor = ({
   if (activeSection.id === "pricing") {
     return (
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
-        <h2 className="text-lg font-semibold">{content.title}</h2>
-        <p className="text-gray-600 mb-4">{content.subtitle}</p>
+        
+        <div className="mb-4">
+        <label htmlFor="pricing-title" className="block text-sm font-medium text-gray-700">
+          Title
+        </label>
+        <Input
+          type="text"
+          id="pricing-title"
+          name="pricing-title"
+          value={content.title || ""}
+          onChange={(e) => handleChange("title", e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          placeholder="Pricing Section Title"
+        />
+      </div>
+
+      {/* Subtitle Input */}
+      <div className="mb-4">
+        <label htmlFor="pricing-subtitle" className="block text-sm font-medium text-gray-700">
+          Subtitle
+        </label>
+        <Input
+          type="text"
+          id="pricing-subtitle"
+          name="pricing-subtitle"
+          value={content.subtitle || ""}
+          onChange={(e) => handleChange("subtitle", e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          placeholder="Pricing Section Subtitle"
+        />
+      </div>
+
         <div className="space-y-4">
           {(content.pricing || []).map((plan: any, index: number) => (
-            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
+            <div key={plan.id || `plan-${index}`} className="p-4 bg-white rounded-lg border border-gray-200">
               <div className="space-y-2">
-                {/* Plan Name Input */}
                 <div>
                   <label htmlFor={`plan-name-${index}`} className="block text-sm font-medium text-gray-700">
                     Plan Name
@@ -117,8 +148,6 @@ export const FormEditor = ({
                     placeholder="Plan Name"
                   />
                 </div>
-  
-                {/* Plan Price Input */}
                 <div>
                   <label htmlFor={`plan-price-${index}`} className="block text-sm font-medium text-gray-700">
                     Plan Price
@@ -138,8 +167,6 @@ export const FormEditor = ({
                     placeholder="Plan Price"
                   />
                 </div>
-  
-                {/* Features List */}
                 <label className="block text-sm font-medium text-gray-700">
                    Feature
                   </label>
@@ -171,6 +198,198 @@ export const FormEditor = ({
     );
   }
 
+  if (activeSection.id === "testimonials") {
+    return (
+      <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
+        {/* Title Input */}
+        <div className="mb-4">
+          <label htmlFor="testimonials-title" className="block text-sm font-medium text-gray-700">
+            Title
+          </label>
+          <Input
+            type="text"
+            id="testimonials-title"
+            name="testimonials-title"
+            value={content.title || ""}
+            onChange={(e) => handleChange("title", e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="Testimonials Section Title"
+          />
+        </div>
+  
+        {/* Subtitle Input */}
+        <div className="mb-4">
+          <label htmlFor="testimonials-subtitle" className="block text-sm font-medium text-gray-700">
+            Subtitle
+          </label>
+          <Input
+            type="text"
+            id="testimonials-subtitle"
+            name="testimonials-subtitle"
+            value={content.subtitle || ""}
+            onChange={(e) => handleChange("subtitle", e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="Testimonials Section Subtitle"
+          />
+        </div>
+  
+        <div className="space-y-4">
+          {(content.testimonials || []).map((testimonial: any, index: number) => (
+            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
+              <div className="space-y-2">
+                {/* Quote Input */}
+                <div>
+                  <label htmlFor={`testimonial-quote-${index}`} className="block text-sm font-medium text-gray-700">
+                    Quote
+                  </label>
+                  <Input
+                    type="text"
+                    id={`testimonial-quote-${index}`}
+                    name={`testimonial-quote-${index}`}
+                    value={testimonial.quote || ""}
+                    onChange={(e) => {
+                      const updatedTestimonials = [...(content.testimonials || [])];
+                      updatedTestimonials[index] = { ...updatedTestimonials[index], quote: e.target.value };
+                      handleChange("testimonials", updatedTestimonials);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Testimonial Quote"
+                  />
+                </div>
+  
+                {/* Author Input */}
+                <div>
+                  <label htmlFor={`testimonial-author-${index}`} className="block text-sm font-medium text-gray-700">
+                    Author
+                  </label>
+                  <Input
+                    type="text"
+                    id={`testimonial-author-${index}`}
+                    name={`testimonial-author-${index}`}
+                    value={testimonial.author || ""}
+                    onChange={(e) => {
+                      const updatedTestimonials = [...(content.testimonials || [])];
+                      updatedTestimonials[index] = { ...updatedTestimonials[index], author: e.target.value };
+                      handleChange("testimonials", updatedTestimonials);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Author Name"
+                  />
+                </div>
+  
+                {/* Role Input */}
+                <div>
+                  <label htmlFor={`testimonial-role-${index}`} className="block text-sm font-medium text-gray-700">
+                    Role
+                  </label>
+                  <Input
+                    type="text"
+                    id={`testimonial-role-${index}`}
+                    name={`testimonial-role-${index}`}
+                    value={testimonial.role || ""}
+                    onChange={(e) => {
+                      const updatedTestimonials = [...(content.testimonials || [])];
+                      updatedTestimonials[index] = { ...updatedTestimonials[index], role: e.target.value };
+                      handleChange("testimonials", updatedTestimonials);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Author Role"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeSection.id === "faq") {
+    return (
+      <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
+        {/* Title Input */}
+        <div className="mb-4">
+          <label htmlFor="faq-title" className="block text-sm font-medium text-gray-700">
+            Title
+          </label>
+          <Input
+            type="text"
+            id="faq-title"
+            name="faq-title"
+            value={content.title || ""}
+            onChange={(e) => handleChange("title", e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="FAQs Section Title"
+          />
+        </div>
+  
+        {/* Subtitle Input */}
+        <div className="mb-4">
+          <label htmlFor="faq-subtitle" className="block text-sm font-medium text-gray-700">
+            Subtitle
+          </label>
+          <Input
+            type="text"
+            id="faq-subtitle"
+            name="faq-subtitle"
+            value={content.subtitle || ""}
+            onChange={(e) => handleChange("subtitle", e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            placeholder="FAQs Section Subtitle"
+          />
+        </div>
+  
+        <div className="space-y-4">
+          {(content.faqs || []).map((faq: any, index: number) => (
+            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
+              <div className="space-y-2">
+                {/* Question Input */}
+                <div>
+                  <label htmlFor={`faq-question-${index}`} className="block text-sm font-medium text-gray-700">
+                    Question
+                  </label>
+                  <Input
+                    type="text"
+                    id={`faq-question-${index}`}
+                    name={`faq-question-${index}`}
+                    value={faq.question || ""}
+                    onChange={(e) => {
+                      const updatedFAQs = [...(content.faqs || [])];
+                      updatedFAQs[index] = { ...updatedFAQs[index], question: e.target.value };
+                      handleChange("faqs", updatedFAQs);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="FAQ Question"
+                  />
+                </div>
+  
+                {/* Answer Input */}
+                <div>
+                  <label htmlFor={`faq-answer-${index}`} className="block text-sm font-medium text-gray-700">
+                    Answer
+                  </label>
+                  <Input
+                    type="text"
+                    id={`faq-answer-${index}`}
+                    name={`faq-answer-${index}`}
+                    value={faq.answer || ""}
+                    onChange={(e) => {
+                      const updatedFAQs = [...(content.faqs || [])];
+                      updatedFAQs[index] = { ...updatedFAQs[index], answer: e.target.value };
+                      handleChange("faqs", updatedFAQs);
+                    }}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="FAQ Answer"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-6 bg-white p-4 rounded-md shadow-sm border">
       {fields.map((field) => (
@@ -184,7 +403,7 @@ export const FormEditor = ({
           {field.type === "array" ? (
             <div className="space-y-4">
               {(content[field.name] || []).map((item: any, index: number) => (
-                <div key={index} className="p-4 bg-white rounded-lg space-y-2">
+                <div key={item.id || `${field.name}-${index}`} className="p-4 bg-white rounded-lg space-y-2">
                   {field.arrayFields?.map((arrayField) => (
                     <div key={arrayField.name}>
                       <label
