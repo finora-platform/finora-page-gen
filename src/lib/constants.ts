@@ -3,7 +3,7 @@ import { Section, FormField } from "./types";
 export const sections: Section[] = [
   { 
     id: "site-config", 
-    name: "Site Configuration", 
+    name: "Colour Palatte", 
     type: "theme",
     content: {
       themeColor: "blue",

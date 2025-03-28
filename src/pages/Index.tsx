@@ -18,7 +18,7 @@ const Index = () => {
   });
   const { toast } = useToast();
 
-  useEffect(() => {
+  useEffect(() => { 
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sectionList));
   }, [sectionList]);
 

@@ -1,6 +1,6 @@
 import { sections } from "@/lib/constants";
 import { FormField } from "@/lib/types";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, Trash2 } from "lucide-react";
 import { Section } from "@/lib/types";
 import { Input } from "../ui/input";
 
@@ -43,8 +43,6 @@ export const FormEditor = ({
     handleChange(fieldName, newArray);
   };
 
-
-
   if (activeSection.id === "highlights") {
     return (
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
@@ -56,7 +54,10 @@ export const FormEditor = ({
             return (
               <div className="space-y-4" key={field.name}>
                 {items.map((item: any, index: number) => (
-                  <div key={item.id || `${field.name}-${index}`} className="flex items-center gap-4">
+                  <div
+                    key={item.id || `${field.name}-${index}`}
+                    className="flex items-center gap-4"
+                  >
                     <div className="flex-1 flex rounded-xl overflow-hidden border border-gray-200">
                       <div className="p-2 border-r border-gray-200">
                         <p className="text-gray-600 font-medium">
@@ -93,85 +94,102 @@ export const FormEditor = ({
   if (activeSection.id === "pricing") {
     return (
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
-        
         <div className="mb-4">
-        <label htmlFor="pricing-title" className="block text-sm font-medium text-gray-700">
-          Title
-        </label>
-        <Input
-          type="text"
-          id="pricing-title"
-          name="pricing-title"
-          value={content.title || ""}
-          onChange={(e) => handleChange("title", e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-          placeholder="Pricing Section Title"
-        />
-      </div>
+          <label
+            htmlFor="pricing-title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Title
+            <Input
+              type="text"
+              id="pricing-title"
+              name="pricing-title"
+              value={content.title || ""}
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Pricing Section Title"
+            />
+          </label>
+        </div>
 
-      {/* Subtitle Input */}
-      <div className="mb-4">
-        <label htmlFor="pricing-subtitle" className="block text-sm font-medium text-gray-700">
-          Subtitle
-        </label>
-        <Input
-          type="text"
-          id="pricing-subtitle"
-          name="pricing-subtitle"
-          value={content.subtitle || ""}
-          onChange={(e) => handleChange("subtitle", e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-          placeholder="Pricing Section Subtitle"
-        />
-      </div>
+        {/* Subtitle Input */}
+        <div className="mb-4">
+          <label
+            htmlFor="pricing-subtitle"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Subtitle
+            <Input
+              type="text"
+              id="pricing-subtitle"
+              name="pricing-subtitle"
+              value={content.subtitle || ""}
+              onChange={(e) => handleChange("subtitle", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Pricing Section Subtitle"
+            />
+          </label>
+        </div>
 
         <div className="space-y-4">
           {(content.pricing || []).map((plan: any, index: number) => (
-            <div key={plan.id || `plan-${index}`} className="p-4 bg-white rounded-lg border border-gray-200">
+            <div
+              key={plan.id || `plan-${index}`}
+              className="p-4 bg-white rounded-lg border border-gray-200"
+            >
               <div className="space-y-2">
                 <div>
-                  <label htmlFor={`plan-name-${index}`} className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor={`plan-name-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Plan Name
+                    <Input
+                      type="text"
+                      id={`plan-name-${index}`}
+                      name={`plan-name-${index}`}
+                      value={plan.plan || ""}
+                      onChange={(e) => {
+                        const updatedPlan = { ...plan, plan: e.target.value };
+                        const updatedPricing = [...(content.pricing || [])];
+                        updatedPricing[index] = updatedPlan;
+                        handleChange("pricing", updatedPricing);
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                      placeholder="Plan Name"
+                    />
                   </label>
-                  <Input
-                    type="text"
-                    id={`plan-name-${index}`}
-                    name={`plan-name-${index}`}
-                    value={plan.plan || ""}
-                    onChange={(e) => {
-                      const updatedPlan = { ...plan, plan: e.target.value };
-                      const updatedPricing = [...(content.pricing || [])];
-                      updatedPricing[index] = updatedPlan;
-                      handleChange("pricing", updatedPricing);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Plan Name"
-                  />
                 </div>
                 <div>
-                  <label htmlFor={`plan-price-${index}`} className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor={`plan-price-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Plan Price
+                    <Input
+                      type="text"
+                      id={`plan-price-${index}`}
+                      name={`plan-price-${index}`}
+                      value={plan.price || ""}
+                      onChange={(e) => {
+                        const updatedPlan = { ...plan, price: e.target.value };
+                        const updatedPricing = [...(content.pricing || [])];
+                        updatedPricing[index] = updatedPlan;
+                        handleChange("pricing", updatedPricing);
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                      placeholder="Plan Price"
+                    />
                   </label>
-                  <Input
-                    type="text"
-                    id={`plan-price-${index}`}
-                    name={`plan-price-${index}`}
-                    value={plan.price || ""}
-                    onChange={(e) => {
-                      const updatedPlan = { ...plan, price: e.target.value };
-                      const updatedPricing = [...(content.pricing || [])];
-                      updatedPricing[index] = updatedPlan;
-                      handleChange("pricing", updatedPricing);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Plan Price"
-                  />
                 </div>
                 <label className="block text-sm font-medium text-gray-700">
-                   Feature
-                  </label>
-                  {plan.features.map((feature: string, featureIndex: number) => (
-                      <div>
+                  Feature
+                  {plan.features.map(
+                    (feature: string, featureIndex: number) => (
+                      <div
+                        key={`feature-${index}-${featureIndex}`}
+                        className="flex items-center"
+                      >
                         <Input
                           type="text"
                           id={`feature-${index}-${featureIndex}`}
@@ -180,7 +198,10 @@ export const FormEditor = ({
                           onChange={(e) => {
                             const updatedFeatures = [...plan.features];
                             updatedFeatures[featureIndex] = e.target.value;
-                            const updatedPlan = { ...plan, features: updatedFeatures };
+                            const updatedPlan = {
+                              ...plan,
+                              features: updatedFeatures,
+                            };
                             const updatedPricing = [...(content.pricing || [])];
                             updatedPricing[index] = updatedPlan;
                             handleChange("pricing", updatedPricing);
@@ -188,8 +209,44 @@ export const FormEditor = ({
                           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                           placeholder="Feature"
                         />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updatedFeatures = plan.features.filter(
+                              (_, i) => i !== featureIndex
+                            );
+                            const updatedPlan = {
+                              ...plan,
+                              features: updatedFeatures,
+                            };
+                            const updatedPricing = [...(content.pricing || [])];
+                            updatedPricing[index] = updatedPlan;
+                            handleChange("pricing", updatedPricing);
+                          }}
+                          className="ml-2 text-red-600 hover:text-red-800"
+                        >
+                          <Trash2 />
+                        </button>
                       </div>
-                  ))}
+                    )
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedFeatures = [...plan.features, "Feaature"]; // Add a new empty string for the new feature
+                      const updatedPlan = {
+                        ...plan,
+                        features: updatedFeatures,
+                      };
+                      const updatedPricing = [...(content.pricing || [])];
+                      updatedPricing[index] = updatedPlan; // Update the specific plan in the pricing array
+                      handleChange("pricing", updatedPricing); // Call handleChange to update the state
+                    }}
+                    className=" mt-2 flex justify-center w-full px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Add Feature
+                  </button>
+                </label>
               </div>
             </div>
           ))}
@@ -203,102 +260,164 @@ export const FormEditor = ({
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
         {/* Title Input */}
         <div className="mb-4">
-          <label htmlFor="testimonials-title" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="testimonials-title"
+            className="block text-sm font-medium text-gray-700"
+          >
             Title
+            <Input
+              type="text"
+              id="testimonials-title"
+              name="testimonials-title"
+              value={content.title || ""}
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Testimonials Section Title"
+            />
           </label>
-          <Input
-            type="text"
-            id="testimonials-title"
-            name="testimonials-title"
-            value={content.title || ""}
-            onChange={(e) => handleChange("title", e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            placeholder="Testimonials Section Title"
-          />
         </div>
-  
+
         {/* Subtitle Input */}
         <div className="mb-4">
-          <label htmlFor="testimonials-subtitle" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="testimonials-subtitle"
+            className="block text-sm font-medium text-gray-700"
+          >
             Subtitle
+            <Input
+              type="text"
+              id="testimonials-subtitle"
+              name="testimonials-subtitle"
+              value={content.subtitle || ""}
+              onChange={(e) => handleChange("subtitle", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Testimonials Section Subtitle"
+            />
           </label>
-          <Input
-            type="text"
-            id="testimonials-subtitle"
-            name="testimonials-subtitle"
-            value={content.subtitle || ""}
-            onChange={(e) => handleChange("subtitle", e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            placeholder="Testimonials Section Subtitle"
-          />
         </div>
-  
-        <div className="space-y-4">
-          {(content.testimonials || []).map((testimonial: any, index: number) => (
-            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
-              <div className="space-y-2">
-                {/* Quote Input */}
-                <div>
-                  <label htmlFor={`testimonial-quote-${index}`} className="block text-sm font-medium text-gray-700">
-                    Quote
-                  </label>
-                  <Input
-                    type="text"
-                    id={`testimonial-quote-${index}`}
-                    name={`testimonial-quote-${index}`}
-                    value={testimonial.quote || ""}
-                    onChange={(e) => {
-                      const updatedTestimonials = [...(content.testimonials || [])];
-                      updatedTestimonials[index] = { ...updatedTestimonials[index], quote: e.target.value };
+
+        <div className="space-y-9">
+          {(content.testimonials || []).map(
+            (testimonial: any, index: number) => (
+              <div
+                key={index}
+                className="p-4 bg-white rounded-lg border border-gray-200 mt-9"
+              >
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedTestimonials = content.testimonials.filter(
+                        (_, i) => i !== index
+                      );
                       handleChange("testimonials", updatedTestimonials);
                     }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Testimonial Quote"
-                  />
-                </div>
-  
-                {/* Author Input */}
-                <div>
-                  <label htmlFor={`testimonial-author-${index}`} className="block text-sm font-medium text-gray-700">
-                    Author
-                  </label>
-                  <Input
-                    type="text"
-                    id={`testimonial-author-${index}`}
-                    name={`testimonial-author-${index}`}
-                    value={testimonial.author || ""}
-                    onChange={(e) => {
-                      const updatedTestimonials = [...(content.testimonials || [])];
-                      updatedTestimonials[index] = { ...updatedTestimonials[index], author: e.target.value };
-                      handleChange("testimonials", updatedTestimonials);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Author Name"
-                  />
-                </div>
-  
-                {/* Role Input */}
-                <div>
-                  <label htmlFor={`testimonial-role-${index}`} className="block text-sm font-medium text-gray-700">
-                    Role
-                  </label>
-                  <Input
-                    type="text"
-                    id={`testimonial-role-${index}`}
-                    name={`testimonial-role-${index}`}
-                    value={testimonial.role || ""}
-                    onChange={(e) => {
-                      const updatedTestimonials = [...(content.testimonials || [])];
-                      updatedTestimonials[index] = { ...updatedTestimonials[index], role: e.target.value };
-                      handleChange("testimonials", updatedTestimonials);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="Author Role"
-                  />
+                    className="bg-white absolute left-[70%] -translate-y-11 border p-2 rounded-md text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    <Trash2 />
+                  </button>
+
+                  {/* Quote Input */}
+                  <div>
+                    <label
+                      htmlFor={`testimonial-quote-${index}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Quote
+                      <Input
+                        type="text"
+                        id={`testimonial-quote-${index}`}
+                        name={`testimonial-quote-${index}`}
+                        value={testimonial.quote || ""}
+                        onChange={(e) => {
+                          const updatedTestimonials = [
+                            ...(content.testimonials || []),
+                          ];
+                          updatedTestimonials[index] = {
+                            ...updatedTestimonials[index],
+                            quote: e.target.value,
+                          };
+                          handleChange("testimonials", updatedTestimonials);
+                        }}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="Testimonial Quote"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Author Input */}
+                  <div>
+                    <label
+                      htmlFor={`testimonial-author-${index}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Author
+                      <Input
+                        type="text"
+                        id={`testimonial-author-${index}`}
+                        name={`testimonial-author-${index}`}
+                        value={testimonial.author || ""}
+                        onChange={(e) => {
+                          const updatedTestimonials = [
+                            ...(content.testimonials || []),
+                          ];
+                          updatedTestimonials[index] = {
+                            ...updatedTestimonials[index],
+                            author: e.target.value,
+                          };
+                          handleChange("testimonials", updatedTestimonials);
+                        }}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="Author Name"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Role Input */}
+                  <div>
+                    <label
+                      htmlFor={`testimonial-role-${index}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Role
+                      <Input
+                        type="text"
+                        id={`testimonial-role-${index}`}
+                        name={`testimonial-role-${index}`}
+                        value={testimonial.role || ""}
+                        onChange={(e) => {
+                          const updatedTestimonials = [
+                            ...(content.testimonials || []),
+                          ];
+                          updatedTestimonials[index] = {
+                            ...updatedTestimonials[index],
+                            role: e.target.value,
+                          };
+                          handleChange("testimonials", updatedTestimonials);
+                        }}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        placeholder="Author Role"
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              const newTestimonial = { quote: "", author: "", role: "" }; // Create a new testimonial object
+              const updatedTestimonials = [
+                ...(content.testimonials || []),
+                newTestimonial,
+              ]; // Add the new testimonial to the existing array
+              handleChange("testimonials", updatedTestimonials); // Update the state with the new array
+            }}
+            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Add Testimonial
+          </button>
         </div>
       </div>
     );
@@ -309,82 +428,127 @@ export const FormEditor = ({
       <div className="p-6 bg-white rounded-3xl shadow-sm border border-gray-300">
         {/* Title Input */}
         <div className="mb-4">
-          <label htmlFor="faq-title" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="faq-title"
+            className="block text-sm font-medium text-gray-700"
+          >
             Title
+            <Input
+              type="text"
+              id="faq-title"
+              name="faq-title"
+              value={content.title || ""}
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="FAQs Section Title"
+            />
           </label>
-          <Input
-            type="text"
-            id="faq-title"
-            name="faq-title"
-            value={content.title || ""}
-            onChange={(e) => handleChange("title", e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            placeholder="FAQs Section Title"
-          />
         </div>
-  
+
         {/* Subtitle Input */}
         <div className="mb-4">
-          <label htmlFor="faq-subtitle" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="faq-subtitle"
+            className="block text-sm font-medium text-gray-700"
+          >
             Subtitle
+            <Input
+              type="text"
+              id="faq-subtitle"
+              name="faq-subtitle"
+              value={content.subtitle || ""}
+              onChange={(e) => handleChange("subtitle", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="FAQs Section Subtitle"
+            />
           </label>
-          <Input
-            type="text"
-            id="faq-subtitle"
-            name="faq-subtitle"
-            value={content.subtitle || ""}
-            onChange={(e) => handleChange("subtitle", e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            placeholder="FAQs Section Subtitle"
-          />
         </div>
-  
-        <div className="space-y-4">
+
+        <div className="space-y-9">
           {(content.faqs || []).map((faq: any, index: number) => (
-            <div key={index} className="p-4 bg-white rounded-lg border border-gray-200">
+            <div
+              key={index}
+              className="p-4 bg-white rounded-lg border border-gray-200 mt-9"
+            >
               <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updatedFAQs = content.faqs.filter(
+                      (_, i) => i !== index
+                    );
+                    handleChange("faqs", updatedFAQs);
+                  }}
+                  className="bg-white absolute left-[70%] -translate-y-11 border p-2 rounded-md text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  <Trash2 />
+                </button>
+
                 {/* Question Input */}
                 <div>
-                  <label htmlFor={`faq-question-${index}`} className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor={`faq-question-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Question
+                    <Input
+                      type="text"
+                      id={`faq-question-${index}`}
+                      name={`faq-question-${index}`}
+                      value={faq.question || ""}
+                      onChange={(e) => {
+                        const updatedFAQs = [...(content.faqs || [])];
+                        updatedFAQs[index] = {
+                          ...updatedFAQs[index],
+                          question: e.target.value,
+                        };
+                        handleChange("faqs", updatedFAQs);
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                      placeholder="FAQ Question"
+                    />
                   </label>
-                  <Input
-                    type="text"
-                    id={`faq-question-${index}`}
-                    name={`faq-question-${index}`}
-                    value={faq.question || ""}
-                    onChange={(e) => {
-                      const updatedFAQs = [...(content.faqs || [])];
-                      updatedFAQs[index] = { ...updatedFAQs[index], question: e.target.value };
-                      handleChange("faqs", updatedFAQs);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="FAQ Question"
-                  />
                 </div>
-  
+
                 {/* Answer Input */}
                 <div>
-                  <label htmlFor={`faq-answer-${index}`} className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor={`faq-answer-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Answer
+                    <Input
+                      type="text"
+                      id={`faq-answer-${index}`}
+                      name={`faq-answer-${index}`}
+                      value={faq.answer || ""}
+                      onChange={(e) => {
+                        const updatedFAQs = [...(content.faqs || [])];
+                        updatedFAQs[index] = {
+                          ...updatedFAQs[index],
+                          answer: e.target.value,
+                        };
+                        handleChange("faqs", updatedFAQs);
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                      placeholder="FAQ Answer"
+                    />
                   </label>
-                  <Input
-                    type="text"
-                    id={`faq-answer-${index}`}
-                    name={`faq-answer-${index}`}
-                    value={faq.answer || ""}
-                    onChange={(e) => {
-                      const updatedFAQs = [...(content.faqs || [])];
-                      updatedFAQs[index] = { ...updatedFAQs[index], answer: e.target.value };
-                      handleChange("faqs", updatedFAQs);
-                    }}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                    placeholder="FAQ Answer"
-                  />
                 </div>
               </div>
             </div>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              const newFAQ = { question: "Question", answer: "Answer" }; // Create a new FAQ object
+              const updatedFAQs = [...(content.faqs || []), newFAQ]; // Add the new FAQ to the existing array
+              handleChange("faqs", updatedFAQs); // Update the state with the new array
+            }}
+            className="w-full flex justify-center items-center px-4 py-2  rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Add FAQ
+          </button>
         </div>
       </div>
     );
@@ -399,59 +563,65 @@ export const FormEditor = ({
             htmlFor={field.name}
           >
             {field.label}
-          </label>
-          {field.type === "array" ? (
-            <div className="space-y-4">
-              {(content[field.name] || []).map((item: any, index: number) => (
-                <div key={item.id || `${field.name}-${index}`} className="p-4 bg-white rounded-lg space-y-2">
-                  {field.arrayFields?.map((arrayField) => (
-                    <div key={arrayField.name}>
-                      <label
-                        className="block text-sm font-medium text-gray-700"
-                        htmlFor={`${arrayField.name}-${index}`}
-                      >
-                        {arrayField.label}
-                      </label>
-                      <Input
-                        type="text"
-                        id={`${arrayField.name}-${index}`}
-                        name={arrayField.name}
-                        value={item[arrayField.name] || ""}
-                        onChange={(e) => {
-                          handleArrayChange(field.name, index, {
-                            [arrayField.name]: e.target.value,
-                          });
-                        }}
-                        className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                      />
-                    </div>
-                  ))}
-                  <button
-                    onClick={() => removeArrayItem(field.name, index)}
-                    className="text-red-600 hover:text-red-700 text-sm flex items-center"
+
+            {field.type === "array" ? (
+              <div className="space-y-4">
+                {(content[field.name] || []).map((item: any, index: number) => (
+                  <div
+                    key={item.id || `${field.name}-${index}`}
+                    className="p-4 bg-white rounded-lg space-y-2 border"
                   >
-                    <Plus className="w-4 h-4 mr-1" /> Remove
+                    {field.arrayFields?.map((arrayField) => (
+                      <div key={arrayField.name}>
+                        <label
+                          className="block text-sm font-medium text-gray-700"
+                          htmlFor={`${arrayField.name}-${index}`}
+                        >
+                          {arrayField.label}
+                          <Input
+                            type="text"
+                            id={`${arrayField.name}-${index}`}
+                            name={arrayField.name}
+                            value={item[arrayField.name] || ""}
+                            onChange={(e) => {
+                              handleArrayChange(field.name, index, {
+                                [arrayField.name]: e.target.value,
+                              });
+                            }}
+                            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          />
+                        </label>
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => removeArrayItem(field.name, index)}
+                      className="text-red-600 hover:text-red-700 text-sm flex items-center"
+                    >
+                      <Plus className="w-4 h-4 mr-1" /> Remove
+                    </button>
+                  </div>
+                ))}
+                {content[field.name].length < 6 && (
+                  <button
+                    onClick={() => addArrayItem(field.name)}
+                    className="flex justify-center items-center w-full text-center text-sm p-2 rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    <Plus className="w-4 h-4 mr-1" /> Add {field.label}
                   </button>
-                </div>
-              ))}
-              <button
-                onClick={() => addArrayItem(field.name)}
-                className="flex items-center text-sm text-blue-600 hover:text-blue-700"
-              >
-                <Plus className="w-4 h-4 mr-1" /> Add {field.label}
-              </button>
-            </div>
-          ) : (
-            <Input
-              type={field.type === "url" ? "url" : "text"}
-              id={field.name}
-              name={field.name}
-              value={content[field.name] || ""}
-              onChange={(e) => handleChange(field.name, e.target.value)}
-              onBlur={() => onChange(content)} // Trigger toast on blur
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border pt-1"
-            />
-          )}
+                )}
+              </div>
+            ) : (
+              <Input
+                type={field.type === "url" ? "url" : "text"}
+                id={field.name}
+                name={field.name}
+                value={content[field.name] || ""}
+                onChange={(e) => handleChange(field.name, e.target.value)}
+                onBlur={() => onChange(content)} // Trigger toast on blur
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border pt-1"
+              />
+            )}
+          </label>
         </div>
       ))}
     </div>
