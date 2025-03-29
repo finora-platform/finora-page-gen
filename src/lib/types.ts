@@ -41,6 +41,8 @@ export interface Section {
 export type FormField = {
   label: string;
   name: string;
+  placeholder?: string;
+  maxItems?: number;
   type: "text" | "textarea" | "url" | "array" | "email" | "number" | "color" | "file";
   arrayFields?: FormField[];
 };
