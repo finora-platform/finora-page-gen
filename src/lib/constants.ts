@@ -62,6 +62,7 @@ export const sections: Section[] = [
     content: {
       title: "Simple, Transparent Pricing",
       subtitle: "Choose the plan that works best for you",
+      discount: 10,
       pricing: [
         {
           plan: "Basic",
@@ -119,17 +120,20 @@ export const sections: Section[] = [
         {
           quote: "Amazing product!",
           author: "John Doe",
-          role: "CEO, Company Inc"
+          role: "CEO, Company Inc",
+          image: "",
         },
         {
           quote: "Good product!",
           author: "John Doe",
-          role: "CEO, Company Inc"
+          role: "CEO, Company Inc",
+          image: "",
         },
         {
           quote: "Amazing product!",
           author: "John Doe",
-          role: "CEO, Company Inc"
+          role: "CEO, Company Inc",
+          image: "",
         }
       ]
     }

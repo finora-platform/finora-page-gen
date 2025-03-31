@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 const ContactSection = ({ themeColor, content }: { themeColor: string; content: { title?: string; subtitle?: string; description?: string; buttonText?: string; buttonUrl?: string; image?: string; logo?: string; themeColor?: string; items?: { title: string; description: string; icon?: string; }[]; } }) => {
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4 mx-8 rounded-3xl" style={{ backgroundColor: `var(--${themeColor})` }}>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-4">{content.title}</h2>
 

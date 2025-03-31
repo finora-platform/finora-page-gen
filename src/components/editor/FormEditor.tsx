@@ -40,7 +40,11 @@ export const FormEditor = ({
     const newArray = content[fieldName].filter(
       (_: any, i: number) => i !== index
     );
-    handleChange(fieldName, newArray);
+    {
+      activeSection.id == "features"
+        ? handleChange(fieldName, newArray, "Validation")
+        : handleChange(fieldName, newArray);
+    }
   };
 
   if (activeSection.id === "highlights") {
@@ -127,6 +131,24 @@ export const FormEditor = ({
               onChange={(e) => handleChange("subtitle", e.target.value)}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               placeholder="Pricing Section Subtitle"
+            />
+          </label>
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="pricing-title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Discount
+            <Input
+              type="number"
+              id="pricing-title"
+              name="pricing-title"
+              value={content.discount || ""}
+              onChange={(e) => handleChange("discount", e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Pricing Section Title"
             />
           </label>
         </div>
@@ -317,6 +339,46 @@ export const FormEditor = ({
                     <Trash2 />
                   </button>
 
+                  <label
+                    htmlFor="testimonial-user-image"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    User Image
+                    <input
+                      type="file"
+                      id="logofile"
+                      name="logo"
+                      placeholder="Logo Image"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            const updatedTestimonials = [
+                              ...(content.testimonials || []),
+                            ];
+                            updatedTestimonials[index] = {
+                              ...updatedTestimonials[index],
+                              image: reader.result, // Store the image data
+                            };
+                            handleChange("testimonials", updatedTestimonials);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+
+                      className="w-full p-2 border rounded "
+                    />
+                  </label>
+
+                  {/* Image Display */}
+                  {testimonial.image && (
+                    <img
+                      src={testimonial.image}
+                      alt="User Image"
+                      className="w-16 h-16 rounded-full mb-2"
+                    />
+                  )}
                   {/* Quote Input */}
                   <div>
                     <label

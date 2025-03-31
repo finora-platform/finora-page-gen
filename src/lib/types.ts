@@ -11,6 +11,7 @@ export interface Section {
     buttonUrl?: string;
     image?: string;
     logo?: string;
+    discount?: number;
     themeColor?: string;
     items?: Array<{
       title: string;
@@ -26,6 +27,7 @@ export interface Section {
       quote: string;
       author: string;
       role: string;
+      image?: string;
     }>;
     faqs?: Array<{
       question: string;
@@ -41,8 +43,6 @@ export interface Section {
 export type FormField = {
   label: string;
   name: string;
-  placeholder?: string;
-  maxItems?: number;
   type: "text" | "textarea" | "url" | "array" | "email" | "number" | "color" | "file";
   arrayFields?: FormField[];
 };

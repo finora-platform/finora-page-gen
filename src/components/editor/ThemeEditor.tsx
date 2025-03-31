@@ -37,7 +37,7 @@ export const ThemeEditor = ({ section, onToggle }: ThemeEditorProps) => (
                   borderColor:
                     section.content.themeColor === color
                       ? "white"
-                      : "transparent"
+                      : "transparent",
                 }}
               >
                 Button
@@ -47,15 +47,26 @@ export const ThemeEditor = ({ section, onToggle }: ThemeEditorProps) => (
           </button>
         ))}
       </div>
-      <input
-        type="text"
-        id="logo-url"
-        name="logo"
-        placeholder="Logo URL"
-        value={section.content.logo || ""}
-        onChange={(e) => onToggle({ logo: e.target.value })}
-        className="w-full p-2 border rounded"
-      />
+      <label htmlFor="themeColor" className="block text-sm font-medium mb-2">
+        Image Logo
+        <input
+          type="file"
+          id="logofile"
+          name="logo"
+          placeholder="Logo Image"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                onToggle({ logo: reader.result as string }); // Store as Base64
+              };
+              reader.readAsDataURL(file);
+            }
+          }}
+          className="w-full p-2 border rounded"
+        />
+      </label>
     </div>
   </AccordionContent>
 );
