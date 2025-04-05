@@ -1,5 +1,6 @@
-import { Section } from "@/lib/types"; // Corrected import path
+import { Section } from "@/lib/types";
 import { useEffect, useRef } from "react";
+import JSZip from "jszip";
 import { Header } from "../navigation/Header";
 import { HeroSection } from "../sections/HeroSection";
 import { HighlightsSection } from "../sections/HighlightsSection";
@@ -8,11 +9,10 @@ import { PricingSection } from "../sections/PricingSection";
 import { TestimonialsSection } from "../sections/TestimonialsSection";
 import { FAQSection } from "../sections/FAQSection";
 import ContactSection from "../sections/ContactSection";
-
 import { FooterSection } from "../sections/FooterSection";
 import { Button } from "../ui/button";
 import { PanelLeftClose, PanelLeftOpen, Eye, Rocket } from "lucide-react";
-import { useToast } from "@/hooks/use-toast"; // Corrected import path
+import { useToast } from "@/hooks/use-toast";
 
 interface PreviewProps {
   sections: Section[];
@@ -105,11 +105,87 @@ const Preview = ({
     }
   };
 
-  const handlePublish = () => {
-    toast({
-      title: "Publishing...",
-      description: "Your site is being published. This may take a few minutes.",
-    });
+  const handlePublish = async () => {
+    try {
+      toast({
+        title: "Preparing website package...",
+        description: "This may take a moment.",
+      });
+
+      if (!previewRef.current) return;
+
+      // Create zip file
+      const zip = new JSZip();
+      const assets = zip.folder("assets");
+
+      // Get all styles from the document
+      const styles = Array.from(
+        document.querySelectorAll('style, link[rel="stylesheet"]')
+      )
+        .map((el) => el.outerHTML)
+        .join("\n");
+
+      // Get all script tags
+      const scripts = Array.from(document.querySelectorAll("script[src]"))
+        .map((el) => `<script src="${el.getAttribute("src")}"></script>`)
+        .join("\n");
+
+      // Create HTML content
+      const htmlContent = `<!DOCTYPE html>
+      <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+  ${styles}
+</head>
+<body>
+  ${previewRef.current.innerHTML}
+  ${scripts}
+</body>
+</html>`;
+
+      // Add files to zip
+      zip.file("index.html", htmlContent);
+
+      // Add all images to assets folder
+      const images = previewRef.current.querySelectorAll("img");
+      images.forEach((img, i) => {
+        const src = img.getAttribute("src");
+        if (src && !src.startsWith("data:")) {
+          assets.file(`image-${i}.${src.split(".").pop()}`, src);
+        }
+      });
+
+      // Generate zip file
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+
+      // Trigger download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "website-package.zip";
+      document.body.appendChild(a);
+      a.click();
+
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+
+      toast({
+        title: "Download ready!",
+        description: "Your website package has been generated.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to generate website package.",
+        variant: "destructive",
+      });
+      console.error("Package generation error:", error);
+    }
   };
 
   const themeSection = sections.find((s) => s.type === "theme");
@@ -133,14 +209,19 @@ const Preview = ({
             <Eye className="mr-2" />
             Preview
           </Button>
-          <Button style={{ backgroundColor: `var(--${themeColor}-secondary)` }} onClick={handlePublish}>
+          <Button
+            style={{ backgroundColor: `var(--${themeColor}-secondary)` }}
+            onClick={handlePublish}
+          >
             <Rocket className="mr-2" />
             Publish
           </Button>
         </div>
       </div>
-      <div ref={previewRef} className="bg-white rounded-xl shadow-sm mx-6 mb-6 overflow-auto">
-
+      <div
+        ref={previewRef}
+        className="bg-white rounded-xl shadow-sm mx-6 mb-6 overflow-auto"
+      >
         <Header
           sections={sections}
           themeColor={themeColor}
@@ -153,7 +234,7 @@ const Preview = ({
               <SectionComponent
                 section={section}
                 isActive={section.id === activeSectionId}
-                themeColor={themeColor} // Pass themeColor here
+                themeColor={themeColor}
               />
             </div>
           ))}
